@@ -1,5 +1,0 @@
-﻿  Main.cpp
-C:\Users\fko2347054\Desktop\sakuhintenjikai\rangame\Main.cpp(159,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\rangame\Main.cpp(185,33): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\rangame\Main.cpp(185,21): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  rangame.vcxproj -> C:\Users\fko2347054\Desktop\sakuhintenjikai\rangame\x64\Debug\rangame.exe
