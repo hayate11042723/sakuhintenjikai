@@ -1,4 +1,6 @@
 #include "DxLib.h"
+#include <math.h>
+
 //#include "SceneMgr.h"
 #define IMAGE_SIZE	50
 
@@ -6,11 +8,35 @@ int PlayerX, PlayerY;
 float JumpPower;
 int PlayerGraph;
 int EnemyGraph;
+int BackGraph;
+int TitleGraph;
 int EnemyW, EnemyH;
 int PlayerH, PlayerW;
 
+constexpr int GAMEEND = 0;
+constexpr int TITLESCENE = 1;
+constexpr int GAMESCENE = 2;
+constexpr int GAMEOVERSCENE = 3;
+constexpr int GAMECLEARSCENE = 4;
 
+bool isInputEnterHold = false;// InputEneter用の変数
+bool isInputUpHold = false;// InputUp用の変数
+bool isInputDownHold = false;// InputDown用の変数
+
+int TitleScene();
+int GameScene();
+int GameOverScene();
+int GameClearScene();
+bool InputEnter();
+bool InputUp();
+bool InputDown();
+
+// エネミー構造体
 VECTOR EnemyPos;
+VECTOR EnemyPos1;
+VECTOR EnemyPos2;
+VECTOR EnemyPos3;
+VECTOR EnemyPos4;
 
 XINPUT_STATE input;
 
@@ -23,81 +49,216 @@ void BackScroll(const int t_areaX, const int tD_graph, const int t_winWidth, con
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	int Key;
-	int phase = 0;
-	int StartTime;
-	int Time;
-	int BackGraph = LoadGraph("image/back.png");
-	int areaX = 0;
-	int speed = 3;
-	unsigned int Cr;
+	LONGLONG roopStartTime = 0;
+	bool gameRoop = true;
+	int nextScene = TITLESCENE;
 
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
-
 	// 画面モードの設定
 	SetGraphMode(1280, 720, 32);
-
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// このフレームの開始時刻を覚えておく
-	LONGLONG start = GetNowHiPerformanceCount();
+	while (gameRoop) 
+	{
+		roopStartTime = GetNowHiPerformanceCount();
+	
+		ClearDrawScreen();
+
+		if (nextScene == TITLESCENE)
+		{
+			nextScene = TitleScene();
+		}
+		else if (nextScene == GAMESCENE)
+		{
+			nextScene = GameScene();
+		}
+		else if (nextScene == GAMEOVERSCENE)
+		{
+			nextScene = GameOverScene();
+		}
+		else if (nextScene == GAMECLEARSCENE)
+		{
+			nextScene = GameClearScene();
+		}
+		else if (nextScene == GAMEEND)
+		{
+			break;
+		}
+
+		//裏画面を表へ
+		ScreenFlip();
+
+		//リフレッシュ処理(-1ならエラー)
+		if (ProcessMessage() < 0)
+		{
+			break;
+		}
+
+		// escキーでゲーム終了
+		if (CheckHitKey(KEY_INPUT_ESCAPE))
+		{
+			break;
+		}
+
+		// FPS60に固定する
+		while (GetNowHiPerformanceCount() - roopStartTime < 16667)
+		{
+			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
+		}
+	}
+
+		DxLib_End();				// ＤＸライブラリ使用の終了処理
+
+		return 0;				// ソフトの終了 
+}
+
+int TitleScene()
+{
+	/*変数*/
+	bool gameRoop = true;
+	int nextScene = TITLESCENE;
+	int arrowPosY = 440;
+	int countFrame = 0;
+
+	/*ゲーム処理*/
+	while (gameRoop)
+	{
+		/*計算処理*/
+		//Input Down.
+		if (InputDown())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+		//Input Up.
+		if (InputUp())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+
+
+		/*タイマ更新*/
+		countFrame++;
+		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+
+		/*Draw処理*/
+		//裏画面の初期化
+		ClearDrawScreen();
+
+		//タイトルロゴ
+		//SetFontSize(80);//フォントサイズ変更
+		//DrawString(440, 240, "", GetColor(255, 255, 255));
+		//SetFontSize(40);//フォントサイズ上
+		//DrawString(460, 320, "-GameTemplate1-", GetColor(255, 255, 255));
+		//SetFontSize(20);//フォントサイズ初期化
+		//ゲームシーンテキスト
+		DrawString(600, 440, "START", GetColor(255, 255, 255));
+		//ゲームエンドテキスト
+		DrawString(600, 480, "END", GetColor(255, 255, 255));
+		//矢印表示(点滅させる)
+		if ((countFrame % 60) < 32)
+		{
+			DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+		}
+
+		// グラフィック『Title.png』をメモリにロード
+		TitleGraph = LoadGraph("image/Title.png");
+
+		/*DebugDraw処理*/
+		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+
+		//裏画面を表へ
+		ScreenFlip();
+
+		/*シーン遷移処理*/
+		//エンターでシーン変更
+		if (InputEnter())
+		{
+			if (arrowPosY == 440)
+			{
+				return GAMESCENE;
+			}
+			else
+			{
+				return GAMEEND;
+			}
+
+		}
+	}
+
+	//例外処理
+	return TITLESCENE;
+}
+
+int GameScene()
+{
+	bool gameRoop = true;
+	int Key;
+	int phase = 0;
+	int StartTime;
+	int Time;
+	int areaX = 0;
+	int speed = 3;
+	unsigned int Cr;
+	int nextScene = GAMESCENE;
+
 
 	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
 	// グラフィック『enemy.png』をメモリにロード
 	EnemyGraph = LoadGraph("image/enemy.png");
-	// グラフィック『背景.png』をメモリにロード
+	// グラフィック『back.png』をメモリにロード
 	BackGraph = LoadGraph("image/back.png");
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
-	PlayerY = 640;
+	PlayerY = 600;
 
-
-
-	//SceneMgr_Initialize();
-
-	//while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
-
-	//	SceneMgr_Update();  //更新
-	//	SceneMgr_Draw();    //描画
-
-	//}
-
-	//SceneMgr_Finalize();
-
-		// 現在経過時間を得る
-		StartTime = GetNowCount();
-		int EnemyNum = 0;
+	// 現在経過時間を得る
+	StartTime = GetNowCount();
+	int EnemyNum = 0;
 
 	// ゲームループ
-	while (GetNowCount() - StartTime < 25000)
+	while (gameRoop)
 	{
-		
+
 		// 描画を行う前に画面をクリアする
-		ClearDrawScreen();	
+		ClearDrawScreen();
+
+		// このフレームの開始時刻を覚えておく
+		LONGLONG start = GetNowHiPerformanceCount();
 
 		BackScroll(areaX, BackGraph, 1280, 720);
 
-			areaX += speed;
-			if (areaX > 1280)
-			{
-				areaX = 0;
-			}
-	
-		// このフレームの開始時刻を覚えておく
-		LONGLONG start = GetNowHiPerformanceCount();
+		areaX += speed;
+		if (areaX > 1280)
+		{
+			areaX = 0;
+		}
+
 		// 白の色コードを保存
 		Cr = GetColor(255, 255, 255);
 		Time = GetNowCount() - StartTime;
 
-		DrawFormatString(1150, 10, Cr, "経過時間%d秒", Time/1000);
+		DrawFormatString(1150, 10, Cr, "経過時間%d秒", Time / 1000);
 
 		// エネミーの出現処理
 		if (EnemyNum == 0 && Time >= 0) {
@@ -106,23 +267,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			EnemyNum++;
 		}
 		if (EnemyNum == 1 && Time >= 3000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 2 && Time >= 6000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 3 && Time >= 8000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 4 && Time >= 10000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 5 && Time >= 12000) {
@@ -131,23 +292,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			EnemyNum++;
 		}
 		if (EnemyNum == 6 && Time >= 13000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 7 && Time >= 14000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 8 && Time >= 15000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 9 && Time >= 18000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 620;
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 620;
 			EnemyNum++;
 		}
 		if (EnemyNum == 10 && Time >= 20000) {
@@ -156,16 +317,50 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			EnemyNum++;
 		}
 		if (EnemyNum == 11 && Time >= 20000) {
-			EnemyPos.x = 1280;
-			EnemyPos.y = 310;
+			EnemyPos1.x = 1280;
+			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
 		if (EnemyNum == 12 && Time >= 22000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 620;
+			EnemyNum++;
+		}
+		if (EnemyNum == 13 && Time >= 24000) {
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 620;
+			EnemyNum++;
+		}
+		if (EnemyNum == 14 && Time >= 24000) {
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 10 && Time >= 26000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 620;
 			EnemyNum++;
 		}
-
+		if (EnemyNum == 11 && Time >= 28000) {
+			EnemyPos1.x = 1280;
+			EnemyPos1.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 12 && Time >= 28000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 620;
+			EnemyNum++;
+		}
+		if (EnemyNum == 13 && Time >= 30000) {
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 620;
+			EnemyNum++;
+		}
+		if (EnemyNum == 14 && Time >= 31000) {
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 310;
+			EnemyNum++;
+		}
 
 		// キー入力取得
 		Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
@@ -182,22 +377,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (PlayerY < 0 + 64) PlayerY = 0 + 64;
 
 		// もし地面についていたら止まる
-		if (PlayerY > 640)
+		if (PlayerY > 600)
 		{
-			PlayerY = 640;
+			PlayerY = 600;
 			JumpPower = 0;
 		}
 
-		// spaceキーを押したらジャンプする
-		if ((Key & PAD_INPUT_A) && PlayerY == 640)JumpPower = 28;
+		// Zキーを押したらジャンプする
+		if ((Key & PAD_INPUT_A) && PlayerY == 600)JumpPower = 28;
 
 		EnemyPos.x -= 10;
+		EnemyPos1.x -= 10;
+		EnemyPos2.x -= 10;
+		EnemyPos3.x -= 10;
+		EnemyPos4.x -= 10;
 
 
 		// プレイヤーを描画する
 		DrawGraph(PlayerX, PlayerY, PlayerGraph, TRUE);
 		// エネミーを描画する
 		DrawGraph(EnemyPos.x, EnemyPos.y, EnemyGraph, TRUE);
+		DrawGraph(EnemyPos1.x, EnemyPos1.y, EnemyGraph, TRUE);
+		DrawGraph(EnemyPos2.x, EnemyPos2.y, EnemyGraph, TRUE);
+		DrawGraph(EnemyPos3.x, EnemyPos3.y, EnemyGraph, TRUE);
+		DrawGraph(EnemyPos4.x, EnemyPos4.y, EnemyGraph, TRUE);
 
 
 
@@ -206,26 +409,256 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (PlayerY + IMAGE_SIZE >= EnemyPos.y && PlayerY <= EnemyPos.y + IMAGE_SIZE) {
 				// 当たったらプレイヤーをデリート
 				DeleteGraph(PlayerGraph);
+				return GAMEOVERSCENE;
+			}
+		}
+		if (PlayerX + IMAGE_SIZE >= EnemyPos1.x && PlayerX <= EnemyPos1.x + IMAGE_SIZE) {
+			if (PlayerY + IMAGE_SIZE >= EnemyPos1.y && PlayerY <= EnemyPos1.y + IMAGE_SIZE) {
+				// 当たったらプレイヤーをデリート
+				DeleteGraph(PlayerGraph);
+				return GAMEOVERSCENE;
+			}
+		}
+		if (PlayerX + IMAGE_SIZE >= EnemyPos2.x && PlayerX <= EnemyPos2.x + IMAGE_SIZE) {
+			if (PlayerY + IMAGE_SIZE >= EnemyPos2.y && PlayerY <= EnemyPos2.y + IMAGE_SIZE) {
+				// 当たったらプレイヤーをデリート
+				DeleteGraph(PlayerGraph);
+				return GAMEOVERSCENE;
+			}
+		}
+		if (PlayerX + IMAGE_SIZE >= EnemyPos3.x && PlayerX <= EnemyPos3.x + IMAGE_SIZE) {
+			if (PlayerY + IMAGE_SIZE >= EnemyPos3.y && PlayerY <= EnemyPos3.y + IMAGE_SIZE) {
+				// 当たったらプレイヤーをデリート
+				DeleteGraph(PlayerGraph);
+				return GAMEOVERSCENE;
+			}
+		}
+		if (PlayerX + IMAGE_SIZE >= EnemyPos4.x && PlayerX <= EnemyPos4.x + IMAGE_SIZE) {
+			if (PlayerY + IMAGE_SIZE >= EnemyPos4.y && PlayerY <= EnemyPos4.y + IMAGE_SIZE) {
+				// 当たったらプレイヤーをデリート
+				DeleteGraph(PlayerGraph);
+				return GAMEOVERSCENE;
 			}
 		}
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
 
-		// escキーでゲーム終了
-		if (CheckHitKey(KEY_INPUT_ESCAPE))
+		/*シーン遷移処理*/
+			//エンターでシーン変更
+		if (InputEnter())
 		{
-			break;
+			return TITLESCENE;
 		}
 
-		// FPS60に固定する
-		while (GetNowHiPerformanceCount() - start < 16667)
+	}
+
+	//例外処理
+	return GAMECLEARSCENE;
+}
+
+int GameOverScene()
+{
+	int nextScene = GAMEOVERSCENE;
+	int arrowPosY = 440;
+	int countFrame = 0;
+	bool gameRoop = true;
+
+
+
+	while (gameRoop)
+	{
+		/*計算処理*/
+	//Input Down.
+		if (InputDown())
 		{
-			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+		//Input Up.
+		if (InputUp())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+
+
+		/*タイマ更新*/
+		countFrame++;
+		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+
+		/*Draw処理*/
+		//裏画面の初期化
+		ClearDrawScreen();
+
+		//ゲームシーンテキスト
+		DrawString(600, 440, "RE START", GetColor(255, 255, 255));
+		//ゲームエンドテキスト
+		DrawString(600, 480, "TITLE", GetColor(255, 255, 255));
+		//矢印表示(点滅させる)
+		if ((countFrame % 60) < 32)
+		{
+			DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+		}
+
+		DrawString(0, 0, "GameOverScene", GetColor(255, 255, 255));//シーン名表示
+
+		ScreenFlip();
+
+		/*シーン遷移処理*/
+		//エンターでシーン変更
+		if (InputEnter())
+		{
+			if (arrowPosY == 440)
+			{
+				return GAMESCENE;
+			}
+			else
+			{
+				return TITLESCENE;
+			}
+
+		}
+	}
+	
+}
+
+int GameClearScene()
+{
+	int nextScene = GAMECLEARSCENE;
+	int arrowPosY = 440;
+	int countFrame = 0;
+	bool gameRoop = true;
+
+	while (gameRoop)
+	{
+		/*計算処理*/
+//Input Down.
+		if (InputDown())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+		//Input Up.
+		if (InputUp())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+
+
+		/*タイマ更新*/
+		countFrame++;
+		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+
+		/*Draw処理*/
+		//裏画面の初期化
+		ClearDrawScreen();
+
+		//ゲームシーンテキスト
+		DrawString(600, 440, "RE START", GetColor(255, 255, 255));
+		//ゲームエンドテキスト
+		DrawString(600, 480, "TITLE", GetColor(255, 255, 255));
+		//矢印表示(点滅させる)
+		if ((countFrame % 60) < 32)
+		{
+			DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+		}
+
+		DrawString(0, 0, "GameClearScene", GetColor(255, 255, 255));//シーン名表示
+
+		ScreenFlip();
+
+		/*シーン遷移処理*/
+		//エンターでシーン変更
+		if (InputEnter())
+		{
+			if (arrowPosY == 440)
+			{
+				return GAMESCENE;
+			}
+			else
+			{
+				return TITLESCENE;
+			}
+
 		}
 	}
 
-		DxLib_End();				// ＤＸライブラリ使用の終了処理
+	
+	return TITLESCENE;
+}
 
-		return 0;				// ソフトの終了 
+bool InputEnter()
+{
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_RETURN) && !isInputEnterHold)
+	{
+		isInputEnterHold = true;
+		return true;
+	}
+	else if (!CheckHitKey(KEY_INPUT_RETURN))
+	{
+		isInputEnterHold = false;
+	}
+
+	return false;
+}
+//Upが押されたかどうかを判定する関数
+//Upしか分からずイケてない。当然今後作り直していきます。
+bool InputUp()
+{
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_UP) && !isInputDownHold)
+	{
+		isInputDownHold = true;
+		return true;
+	}
+	else if (!CheckHitKey(KEY_INPUT_UP))
+	{
+		isInputDownHold = false;
+	}
+
+	return false;
+}
+//Downが押されたかどうかを判定する関数
+//Downしか分からずイケてない。当然今後作り直していきます。
+bool InputDown()
+{
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputUpHold)
+	{
+		isInputUpHold = true;
+		return true;
+	}
+	else if (!CheckHitKey(KEY_INPUT_DOWN))
+	{
+		isInputUpHold = false;
+	}
+
+	return false;
 }
