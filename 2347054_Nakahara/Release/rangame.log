@@ -1,0 +1,19 @@
+﻿  Config.cpp
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Config.h(1,1): warning C4828: オフセット 0x8c から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+  Game.cpp
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Game.h(1,1): warning C4828: オフセット 0x84 から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+  Main.cpp
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(174,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(200,33): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(200,21): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Menu.cpp
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Menu.h(1,1): warning C4828: オフセット 0x84 から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+  SceneMgr.cpp
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Config.h(1,1): warning C4828: オフセット 0x8c から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Game.h(1,1): warning C4828: オフセット 0x84 から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Menu.h(1,1): warning C4828: オフセット 0x84 から始まる、現在のソースの文字セット (コードページ 932) では使用できない文字がファイルに含まれています。
+  コード生成しています。
+  Previous IPDB not found, fall back to full compilation.
+  All 2 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  rangame.vcxproj -> C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\x64\Release\rangame.exe
