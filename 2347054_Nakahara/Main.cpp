@@ -9,6 +9,7 @@ float JumpPower;
 int PlayerGraph;
 int BackGraph;
 int TitleGraph;
+int TitleScrollGraph;
 int EnemyW, EnemyH;
 int PlayerH, PlayerW;
 
@@ -74,6 +75,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (nextScene == TITLESCENE)
 		{
 			nextScene = TitleScene();
+
+			if (nextScene == GAMESCENE) {
+				EnemyPos.x = 800;
+				EnemyPos.y = 800;
+
+				EnemyPos1.x = 800;
+				EnemyPos1.y = 800;
+
+				EnemyPos2.x = 800;
+				EnemyPos2.y = 800;
+
+				EnemyPos3.x = 800;
+				EnemyPos3.y = 800;
+
+				EnemyPos4.x = 800;
+				EnemyPos4.y = 800;
+			}
 		}
 		else if (nextScene == MANUALSCENE)
 		{
@@ -86,6 +104,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		else if (nextScene == GAMEOVERSCENE)
 		{
 			nextScene = GameOverScene();
+
+			if (nextScene == GAMESCENE) {
+				EnemyPos.x = 800;
+				EnemyPos.y = 800;
+
+				EnemyPos1.x = 800;
+				EnemyPos1.y = 800;
+				
+				EnemyPos2.x = 800;
+				EnemyPos2.y = 800;	
+				
+				EnemyPos3.x = 800;
+				EnemyPos3.y = 800;
+
+				EnemyPos4.x = 800;
+				EnemyPos4.y = 800;
+			}
 		}
 		else if (nextScene == GAMECLEARSCENE)
 		{
@@ -130,19 +165,27 @@ int TitleScene()
 	int nextScene = TITLESCENE;
 	int arrowPosY = 440;
 	int countFrame = 0;
+	int areaX = 0;
+	int speed = 3;
+
+	// グラフィック『Title.png』をメモリにロード
+	TitleScrollGraph = LoadGraph("image/title (2).png");
+	TitleGraph = LoadGraph("image/Title.png");
 
 	/*ゲーム処理*/
 	while (gameRoop)
 	{
+
+
 		/*計算処理*/
 		//Input Down.
 		if (InputDown())
 		{
-			if (arrowPosY == 480)
+			if (arrowPosY == 440)
 			{
 				arrowPosY = 460;
 			}
-			else if (arrowPosY == 460, arrowPosY > 480)
+			else if (arrowPosY == 460 , arrowPosY > 480)
 			{
 				arrowPosY = 440;
 			}
@@ -154,11 +197,11 @@ int TitleScene()
 		//Input Up.
 		if (InputUp())
 		{
-			if (arrowPosY == 440)
+			if (arrowPosY == 480)
 			{
 				arrowPosY = 460;
 			}
-			else if (arrowPosY == 460 , arrowPosY < 480)
+			else if (arrowPosY == 460, arrowPosY < 480)
 			{
 				arrowPosY = 440;
 			}
@@ -177,6 +220,15 @@ int TitleScene()
 		//裏画面の初期化
 		ClearDrawScreen();
 
+		BackScroll(areaX, TitleScrollGraph, 1280, 720);
+		DrawGraph(0, 0, TitleGraph, true);
+
+		areaX += speed;
+		if (areaX > 1280)
+		{
+			areaX = 0;
+		}
+
 		//タイトルロゴ
 		//SetFontSize(80);//フォントサイズ変更
 		//DrawString(440, 240, "", GetColor(255, 255, 255));
@@ -194,9 +246,6 @@ int TitleScene()
 		{
 			DrawString(560, arrowPosY, "→", GetColor(255, 255, 255));
 		}
-
-		// グラフィック『Title.png』をメモリにロード
-		TitleGraph = LoadGraph("image/Title.png");
 
 		/*DebugDraw処理*/
 		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
@@ -251,13 +300,20 @@ int ManualScene()
 		//SetFontSize(40);//フォントサイズ上
 		//DrawString(460, 320, "-GameTemplate1-", GetColor(255, 255, 255));
 		//SetFontSize(20);//フォントサイズ初期化
+		DrawString(200, 350, "キー説明", GetColor(255, 255, 255));
 		//ENTERキー説明
-		DrawString(600, 300, "ENTERキー：タイトル画面に戻る ＆ 選択肢の決定ボタン", GetColor(255, 255, 255));
+		DrawString(250, 400, "ENTERキー：タイトル画面に戻る ＆ 選択肢の決定ボタン", GetColor(255, 255, 255));
 		//ジャンプボタン
-		DrawString(600, 350, "Ｚキー：ジャンプ", GetColor(255, 255, 255));
+		DrawString(250, 450, "Ｚキー：ジャンプ", GetColor(255, 255, 255));
+		//ルール説明
+		DrawString(200, 100, "クリア条件", GetColor(255, 255, 255));
+		DrawString(250, 150, "一分間敵に当たらずに生存", GetColor(255, 255, 255));
+				
+		DrawString(200, 200, "ゲームオーバー条件", GetColor(255, 255, 255));
+		DrawString(250, 250, "道中にいる敵に当たる", GetColor(255, 255, 255));
 		
 		/*DebugDraw処理*/
-		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+		DrawString(0, 0, "ManualScene", GetColor(255, 255, 255));//シーン名表示
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -269,9 +325,8 @@ int ManualScene()
 		{
 			return TITLESCENE;
 		}
-		return TITLESCENE;
-	
 	}
+		return TITLESCENE;
 }
 
 
@@ -406,27 +461,27 @@ int GameScene()
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 10 && Time >= 26000) {
+		if (EnemyNum == 15 && Time >= 26000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 620;
 			EnemyNum++;
 		}
-		if (EnemyNum == 11 && Time >= 28000) {
+		if (EnemyNum == 16 && Time >= 28000) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 12 && Time >= 28000) {
+		if (EnemyNum == 17 && Time >= 28000) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 620;
 			EnemyNum++;
 		}
-		if (EnemyNum == 13 && Time >= 30000) {
+		if (EnemyNum == 18 && Time >= 30000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 620;
 			EnemyNum++;
 		}
-		if (EnemyNum == 14 && Time >= 31000) {
+		if (EnemyNum == 19 && Time >= 31000) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 310;
 			EnemyNum++;
@@ -580,7 +635,7 @@ int GameOverScene()
 		//矢印表示(点滅させる)
 		if ((countFrame % 60) < 32)
 		{
-			DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+			DrawString(560, arrowPosY, "→", GetColor(255, 255, 255));
 		}
 
 		DrawString(0, 0, "GameOverScene", GetColor(255, 255, 255));//シーン名表示
@@ -656,7 +711,7 @@ int GameClearScene()
 		//矢印表示(点滅させる)
 		if ((countFrame % 60) < 32)
 		{
-			DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+			DrawString(560, arrowPosY, "→", GetColor(255, 255, 255));
 		}
 
 		DrawString(0, 0, "GameClearScene", GetColor(255, 255, 255));//シーン名表示
@@ -699,7 +754,6 @@ bool InputEnter()
 	return false;
 }
 //Upが押されたかどうかを判定する関数
-//Upしか分からずイケてない。当然今後作り直していきます。
 bool InputUp()
 {
 	//指定フレーム以上押していたら押した判定
@@ -716,7 +770,6 @@ bool InputUp()
 	return false;
 }
 //Downが押されたかどうかを判定する関数
-//Downしか分からずイケてない。当然今後作り直していきます。
 bool InputDown()
 {
 	//指定フレーム以上押していたら押した判定
