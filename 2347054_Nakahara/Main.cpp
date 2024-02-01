@@ -790,13 +790,13 @@ int GameScene()
 
 		// 落下処理
 		PlayerY -= JumpPower;
-		PlayerY -= JumpPower1;
-		PlayerY -= JumpPower2;
+	/*	PlayerY -= JumpPower1;
+		PlayerY -= JumpPower2;*/
 
 		// 落下加速度付加
 		JumpPower -= 1;
-		JumpPower1 -= 1;
-		JumpPower2 -= 1;
+		//JumpPower1 -= 1;
+		//JumpPower2 -= 1;
 
 		// プレイヤーが画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 		if (PlayerY > 720 - 64) PlayerY = 720 - 64;
@@ -816,18 +816,19 @@ int GameScene()
 		// Zキーを押したらジャンプする
 		if ((Key & PAD_INPUT_A) && JumpNum == 0)
 		{
-			JumpPower = 20;
+			JumpPower = 28;
 			JumpNum++;
-		}		// Zキーを押したらジャンプする
-		if ((Key & PAD_INPUT_A) && JumpNum == 1)
-		{
-			JumpPower1 = 14;
-			JumpNum++;
-		}		// Zキーを押したらジャンプする
-		if ((Key & PAD_INPUT_A) && JumpNum == 2)
-		{
-			JumpPower2 = 14;
 		}
+		//// Zキーを押したらジャンプする
+		//if ((Key & PAD_INPUT_A) && JumpNum == 1)
+		//{
+		//	JumpPower1 = 14;
+		//	JumpNum++;
+		//}		// Zキーを押したらジャンプする
+		//if ((Key & PAD_INPUT_A) && JumpNum == 2)
+		//{
+		//	JumpPower2 = 14;
+		//}
 
 		EnemyPos.x -= 10;
 		EnemyPos1.x -= 10;
