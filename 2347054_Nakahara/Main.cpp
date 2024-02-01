@@ -6,6 +6,8 @@
 
 int PlayerX, PlayerY;
 float JumpPower;
+float JumpPower1;
+float JumpPower2;
 int PlayerGraph;
 int BackGraph;
 int TitleGraph;
@@ -438,7 +440,9 @@ int GameScene()
 
 	// 現在経過時間を得る
 	StartTime = GetNowCount();
+
 	int EnemyNum = 0;
+	int JumpNum = 0;
 
 	// ゲームループ
 	while (GetNowCount() - StartTime < 60000)
@@ -786,9 +790,13 @@ int GameScene()
 
 		// 落下処理
 		PlayerY -= JumpPower;
+		PlayerY -= JumpPower1;
+		PlayerY -= JumpPower2;
 
 		// 落下加速度付加
 		JumpPower -= 1;
+		JumpPower1 -= 1;
+		JumpPower2 -= 1;
 
 		// プレイヤーが画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 		if (PlayerY > 720 - 64) PlayerY = 720 - 64;
@@ -800,11 +808,26 @@ int GameScene()
 		{
 			PlayerY = 600;
 			JumpPower = 0;
+			JumpPower1 = 0;
+			JumpPower2 = 0;
+			JumpNum = 0;
 		}
 
 		// Zキーを押したらジャンプする
-		if ((Key & PAD_INPUT_A) && PlayerY == 600)
-			JumpPower = 28;
+		if ((Key & PAD_INPUT_A) && JumpNum == 0)
+		{
+			JumpPower = 20;
+			JumpNum++;
+		}		// Zキーを押したらジャンプする
+		if ((Key & PAD_INPUT_A) && JumpNum == 1)
+		{
+			JumpPower1 = 14;
+			JumpNum++;
+		}		// Zキーを押したらジャンプする
+		if ((Key & PAD_INPUT_A) && JumpNum == 2)
+		{
+			JumpPower2 = 14;
+		}
 
 		EnemyPos.x -= 10;
 		EnemyPos1.x -= 10;
@@ -1084,6 +1107,7 @@ int GameClearScene()
 
 bool InputEnter()
 {
+
 	//指定フレーム以上押していたら押した判定
 	if (CheckHitKey(KEY_INPUT_RETURN) && !isInputEnterHold)
 	{
@@ -1097,6 +1121,7 @@ bool InputEnter()
 
 	return false;
 }
+
 //Upが押されたかどうかを判定する関数
 bool InputUp()
 {
