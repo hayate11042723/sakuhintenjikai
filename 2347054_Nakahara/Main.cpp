@@ -3,7 +3,11 @@
 
 //#include "SceneMgr.h"
 #define IMAGE_SIZE	50
+#define XINPUT_BUTTON_X
 
+int Key;
+int Key1;
+int Key2;
 int PlayerX, PlayerY;
 float JumpPower;
 float JumpPower1;
@@ -13,6 +17,7 @@ int BackGraph;
 int TitleGraph;
 int TitleScrollGraph;
 int ChangeSceenGraph;
+int ChangeSceen2Graph;
 int ManualGraph;
 int GameOverGraph;
 int GameOverTxtGraph;
@@ -22,6 +27,8 @@ int ArrowGraph;
 int EnemyW, EnemyH;
 int PlayerH, PlayerW;
 int BgmHandle;
+int SeHandle;
+int GameOverHandle;
 
 
 constexpr int GAMEEND = 0;
@@ -90,7 +97,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// BGM
 	BgmHandle = LoadSoundMem("image/maou_game_village05.mp3");
 
-	PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
+	
 
 	EnemyPos.x = 800;
 	EnemyPos.y = 800;
@@ -159,11 +166,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
+
 			}
 		}
 		else if (nextScene == GAMESCENE)
 		{
 			nextScene = GameScene();
+
+			if (nextScene == GAMEOVERSCENE)
+			{
+				StopSoundMem(BgmHandle);
+			}
 
 			if (nextScene == TITLESCENE) 
 			{
@@ -175,13 +188,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
+
+				StopSoundMem(BgmHandle);
 			}
 		}
 		else if (nextScene == GAMEOVERSCENE)
 		{
 			nextScene = GameOverScene();
 
-			if (nextScene == TITLESCENE)
+			if (nextScene == TITLESCENE) 
 			{
 				EnemyPos.x = 800;
 				EnemyPos.y = 800;
@@ -191,6 +206,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
+
+				StopSoundMem(GameOverHandle);
 			}
 
 			if (nextScene == GAMESCENE)
@@ -224,11 +241,51 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos9.x = 800;
 				EnemyPos9.y = 800;
+
+				StopSoundMem(GameOverHandle);
+				// BGMをメモリにロード
+				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 			}
 		}
 		else if (nextScene == GAMECLEARSCENE)
 		{
 			nextScene = GameClearScene();
+
+			if (nextScene == GAMESCENE)
+			{
+				EnemyPos.x = 800;
+				EnemyPos.y = 800;
+
+				EnemyPos1.x = 800;
+				EnemyPos1.y = 800;
+
+				EnemyPos2.x = 800;
+				EnemyPos2.y = 800;
+
+				EnemyPos3.x = 800;
+				EnemyPos3.y = 800;
+
+				EnemyPos4.x = 800;
+				EnemyPos4.y = 800;
+
+				EnemyPos5.x = 800;
+				EnemyPos5.y = 800;
+
+				EnemyPos6.x = 800;
+				EnemyPos6.y = 800;
+
+				EnemyPos7.x = 800;
+				EnemyPos7.y = 800;
+
+				EnemyPos8.x = 800;
+				EnemyPos8.y = 800;
+
+				EnemyPos9.x = 800;
+				EnemyPos9.y = 800;
+
+				// BGMをメモリにロード
+				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
+			}
 
 			if (nextScene == TITLESCENE) 
 			{
@@ -240,6 +297,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
+				// BGMをメモリにロード
+				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 			}
 		}
 		else if (nextScene == GAMEEND)
@@ -288,15 +347,24 @@ int TitleScene()
 	// グラフィック『Title.png』をメモリにロード
 	TitleScrollGraph = LoadGraph("image/title (2).png");
 	TitleGraph = LoadGraph("image/Title.png");
+	
+	// シーン選択をメモリにロード
 	ChangeSceenGraph = LoadGraph("image/ChangeSceen.png");
+	ChangeSceen2Graph = LoadGraph("image/ChangeSceen(2).png");
+
 	// グラフィック『arrow.png』をメモリにロード
 	ArrowGraph = LoadGraph("image/arrow.png");
+	
 	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
 	GetGraphSize(PlayerGraph, &PlayerW, &PlayerH);
+	
 	// グラフィック『enemy.png』をメモリにロード
 	EnemyGraph = LoadGraph("image/enemy.png");
 	GetGraphSize(EnemyGraph, &EnemyW, &EnemyH);
+	
+	// BGMをメモリにロード
+	PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 
 
 	// キャラクターの初期データをセット
@@ -374,7 +442,7 @@ int TitleScene()
 		// 背景スクロールの描画
 		BackScroll(areaX, TitleScrollGraph, 1280, 720);
 		const float SinSpeed = 0.1f;
-		const float AnimationSize = 5.0f;
+		const float AnimationSize = 8.0f;
 		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
 		static float SinCount = 0;
 		SinCount += SinSpeed;
@@ -388,6 +456,7 @@ int TitleScene()
 		// タイトルの描画
 		DrawGraph(0, 0, TitleGraph, true);
 		DrawGraph(0, 0, ChangeSceenGraph, true);
+		DrawGraph(0, 0, ChangeSceen2Graph, true);
 
 
 		areaX += speed;
@@ -548,9 +617,6 @@ int GameScene()
 {
 	int EnemyGraph;
 	bool gameRoop = true;
-	int Key;
-	int Key1;
-	int Key2;
 	int phase = 0;
 	int StartTime;
 	int Time;
@@ -567,6 +633,8 @@ int GameScene()
 	GetGraphSize(EnemyGraph, &EnemyW, &EnemyH);
 	// グラフィック『back.png』をメモリにロード
 	BackGraph = LoadGraph("image/back.png");
+	// 音源『SlimeSe.mp3』をメモリにロード
+	SeHandle = LoadSoundMem("image/SlimeSe.mp3");
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
@@ -635,9 +703,9 @@ int GameScene()
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 6 && Time >= 13000) {
+		if (EnemyNum == 6 && Time >= 12000) {
 			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
+			EnemyPos1.y = 460;
 			EnemyNum++;
 		}
 		if (EnemyNum == 7 && Time >= 14000) {
@@ -645,288 +713,302 @@ int GameScene()
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 8 && Time >= 15000) {
+		if (EnemyNum == 8 && Time >= 14000) {
 			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
+			EnemyPos3.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 9 && Time >= 18000) {
+		if (EnemyNum == 9 && Time >= 16000) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 600;
 			EnemyNum++;
-		}
-		if (EnemyNum == 10 && Time >= 20000) {
+		}	
+		if (EnemyNum == 10 && Time >= 16000) {
 			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
+			EnemyPos.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 11 && Time >= 20000) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 310;
+		if (EnemyNum == 11 && Time >= 18000) {
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 600;
 			EnemyNum++;
-		}
-		if (EnemyNum == 12 && Time >= 22000) {
+		}	
+		if (EnemyNum == 12 && Time >= 18000) {
 			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
+			EnemyPos2.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 13 && Time >= 24000) {
+		if (EnemyNum == 13 && Time >= 20000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 14 && Time >= 24000) {
-			EnemyPos4.x = 1270;
+		if (EnemyNum == 14 && Time >= 20000) {
+			EnemyPos4.x = 1280;
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 15 && Time >= 26000) {
+		if (EnemyNum == 15 && Time >= 22000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 16 && Time >= 28000) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 17 && Time >= 28000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 18 && Time >= 30000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 19 && Time >= 32000) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 20 && Time >= 32000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 21 && Time >= 33000) {
-			EnemyPos1.x = 1280;
+		if (EnemyNum == 16 && Time >= 24000) {
+			EnemyPos1.x = 1270;
 			EnemyPos1.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 22 && Time >= 35000) {
+		if (EnemyNum == 17 && Time >= 24000) {
 			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
+			EnemyPos2.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 23 && Time >= 35000) {
+		if (EnemyNum == 18 && Time >= 26000) {
 			EnemyPos3.x = 1270;
-			EnemyPos3.y = 310;
+			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 24 && Time >= 36000) {
-			EnemyPos4.x = 1270;
+		if (EnemyNum == 19 && Time >= 28000) {
+			EnemyPos4.x = 1280;
+			EnemyPos4.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 20 && Time >= 28000) {
+			EnemyPos.x = 1270;
+			EnemyPos.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 21 && Time >= 30000) {
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 22 && Time >= 32000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 23 && Time >= 32000) {
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 24 && Time >= 33000) {
+			EnemyPos4.x = 1280;
 			EnemyPos4.y = 600;
 			EnemyNum++;
-		}	
-		if (EnemyNum == 25 && Time >= 38000) {
+		}
+		if (EnemyNum == 25 && Time >= 35000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 26 && Time >= 38000) {
+		if (EnemyNum == 26 && Time >= 35000) {
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 27 && Time >= 36000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 600;
+			EnemyNum++;
+		}	
+		if (EnemyNum == 28 && Time >= 38000) {
+			EnemyPos.x = 1270;
+			EnemyPos.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 29 && Time >= 38000) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 27 && Time >= 39000) {
+		if (EnemyNum == 30 && Time >= 39000) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 28 && Time >= 41000) {
+		if (EnemyNum == 31 && Time >= 41000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 29 && Time >= 41000) {
+		if (EnemyNum == 32 && Time >= 41000) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 30 && Time >= 42000) {
+		if (EnemyNum == 33 && Time >= 42000) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 31 && Time >= 44000) {
+		if (EnemyNum == 34 && Time >= 44000) {
 			EnemyPos6.x = 1280;
 			EnemyPos6.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 32 && Time >= 44000) {
+		if (EnemyNum == 35 && Time >= 44000) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 33 && Time >= 45000) {
+		if (EnemyNum == 36 && Time >= 45000) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 34 && Time >= 45000) {
+		if (EnemyNum == 37 && Time >= 45000) {
 			EnemyPos9.x = 1270;
 			EnemyPos9.y = 310;
 			EnemyNum++;
 		}	
-		if (EnemyNum == 35 && Time >= 46000) {
+		if (EnemyNum == 38 && Time >= 46000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 36 && Time >= 46000) {
+		if (EnemyNum == 39 && Time >= 46000) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 37 && Time >= 47000) {
+		if (EnemyNum == 40 && Time >= 47000) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 38 && Time >= 47000) {
+		if (EnemyNum == 41 && Time >= 47000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 39 && Time >= 48000) {
+		if (EnemyNum == 42 && Time >= 48000) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 40 && Time >= 48000) {
+		if (EnemyNum == 43 && Time >= 48000) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 41 && Time >= 49000) {
+		if (EnemyNum == 44 && Time >= 49000) {
 			EnemyPos6.x = 1280;
 			EnemyPos6.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 42 && Time >= 49000) {
+		if (EnemyNum == 45 && Time >= 49000) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 43 && Time >= 50000) {
+		if (EnemyNum == 46 && Time >= 50000) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 44 && Time >= 50000) {
+		if (EnemyNum == 47 && Time >= 50000) {
 			EnemyPos9.x = 1270;
 			EnemyPos9.y = 310;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 45 && Time >= 50700) {
+		if (EnemyNum == 48 && Time >= 50700) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 46 && Time >= 50700) {
+		if (EnemyNum == 49 && Time >= 50700) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 47 && Time >= 51500) {
+		if (EnemyNum == 50 && Time >= 51500) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 48 && Time >= 52300) {
+		if (EnemyNum == 51 && Time >= 52300) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 49 && Time >= 52300) {
+		if (EnemyNum == 52 && Time >= 52300) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 460;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 50 && Time >= 53150) {
+		if (EnemyNum == 53 && Time >= 53150) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 51 && Time >= 53150) {
+		if (EnemyNum == 54 && Time >= 53150) {
 			EnemyPos6.x = 1280;
 			EnemyPos6.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 52 && Time >= 54000) {
+		if (EnemyNum == 55 && Time >= 54000) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 53 && Time >= 54000) {
+		if (EnemyNum == 56 && Time >= 54000) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 54 && Time >= 54850) {
+		if (EnemyNum == 57 && Time >= 54850) {
 			EnemyPos9.x = 1270;
 			EnemyPos9.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 55 && Time >= 54850) {
+		if (EnemyNum == 58 && Time >= 54850) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 56 && Time >= 55700) {
+		if (EnemyNum == 59 && Time >= 55700) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 57 && Time >= 55700) {
+		if (EnemyNum == 60 && Time >= 55700) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 58 && Time >= 56550) {
+		if (EnemyNum == 61 && Time >= 56550) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 59 && Time >= 56550) {
+		if (EnemyNum == 62 && Time >= 56550) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 60 && Time >= 57400) {
+		if (EnemyNum == 63 && Time >= 57400) {
 			EnemyPos6.x = 1270;
 			EnemyPos6.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 61 && Time >= 57400) {
+		if (EnemyNum == 64 && Time >= 57400) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		//if (EnemyNum == 62 && Time >= 58200) {
-		//	EnemyPos8.x = 1270;
-		//	EnemyPos8.y = 460;
-		//	EnemyNum++;
-		//}
+
+		// 入力状態を取得
+		GetJoypadXInputState(DX_INPUT_PAD2, &input);
 
 		// キー入力取得
 		Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 		Key1 = GetJoypadInputState(DX_INPUT_KEY);
 		
-		Key2 = GetJoypadInputState(DX_INPUT_KEY);
+		Key2 = GetJoypadXInputState(DX_INPUT_PAD2, &input);
+
 
 		// 落下処理
 		PlayerY -= JumpPower;
@@ -958,121 +1040,131 @@ int GameScene()
 		{
 			JumpPower = 24;
 			JumpNum = 1;
+			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
 		}
 		// Xキーを押したらジャンプする
 		if ((Key1 & PAD_INPUT_2) && JumpNum == 1)
 		{
 			JumpPower1 = 15;
 			JumpNum = 2;
+			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
 		}
-		//// Zキーを押したらジャンプする
-		//if ((Key2 & PAD_INPUT_3) && JumpNum == 2)
-		//{
-		//	JumpPower2 = 25;
-		//	JumpNum = false;
-		//}
+		// Zキーを押したらジャンプする
+		if (DX_INPUT_PAD2 && JumpNum == 1)
+		{
+			JumpPower1 = 15;
+			JumpNum = 2;
+			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+		}
 
-		EnemyPos.x -= 10;
-		EnemyPos1.x -= 10;
-		EnemyPos2.x -= 10;
-		EnemyPos3.x -= 10;
-		EnemyPos4.x -= 10;
-		EnemyPos5.x -= 10;
-		EnemyPos6.x -= 10;
-		EnemyPos7.x -= 10;
-		EnemyPos8.x -= 10;
-		EnemyPos9.x -= 10;
+		// エネミーの移動処理
+		{
+			EnemyPos.x -= 10;
+			EnemyPos1.x -= 10;
+			EnemyPos2.x -= 10;
+			EnemyPos3.x -= 10;
+			EnemyPos4.x -= 10;
+			EnemyPos5.x -= 10;
+			EnemyPos6.x -= 10;
+			EnemyPos7.x -= 10;
+			EnemyPos8.x -= 10;
+			EnemyPos9.x -= 10;
+		}
 
-
-		// プレイヤーを描画する
 		const float SinSpeed = 0.1f;
-		const float AnimationSize = 5.0f;
+		const float AnimationSize = 8.0f;
 		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
 		static float SinCount = 0;
 		SinCount += SinSpeed;
 		AnimationHeight = sinf(SinCount) * AnimationSize;		// 決まった数値だけ高さを増やしてあげる
-		DrawExtendGraph(PlayerX, PlayerY - AnimationHeight, PlayerX + PlayerW, PlayerY + PlayerH, PlayerGraph, TRUE);
+		// プレイヤーを描画する
+		{
+			DrawExtendGraph(PlayerX, PlayerY - AnimationHeight, PlayerX + PlayerW, PlayerY + PlayerH, PlayerGraph, TRUE);
+		}
 		// エネミーを描画する
-		DrawExtendGraph(EnemyPos.x, EnemyPos.y - AnimationHeight, EnemyPos.x + EnemyW, EnemyPos.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos1.x, EnemyPos1.y - AnimationHeight, EnemyPos1.x + EnemyW, EnemyPos1.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos2.x, EnemyPos2.y - AnimationHeight, EnemyPos2.x + EnemyW, EnemyPos2.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos3.x, EnemyPos3.y - AnimationHeight, EnemyPos3.x + EnemyW, EnemyPos3.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos4.x, EnemyPos4.y - AnimationHeight, EnemyPos4.x + EnemyW, EnemyPos4.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos5.x, EnemyPos5.y - AnimationHeight, EnemyPos5.x + EnemyW, EnemyPos5.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos6.x, EnemyPos6.y - AnimationHeight, EnemyPos6.x + EnemyW, EnemyPos6.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos7.x, EnemyPos7.y - AnimationHeight, EnemyPos7.x + EnemyW, EnemyPos7.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos8.x, EnemyPos8.y - AnimationHeight, EnemyPos8.x + EnemyW, EnemyPos8.y + EnemyH, EnemyGraph, TRUE);
-		DrawExtendGraph(EnemyPos9.x, EnemyPos9.y - AnimationHeight, EnemyPos9.x + EnemyW, EnemyPos9.y + EnemyH, EnemyGraph, TRUE);
-
-
-
+		{
+			DrawExtendGraph(EnemyPos.x, EnemyPos.y - AnimationHeight, EnemyPos.x + EnemyW, EnemyPos.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos1.x, EnemyPos1.y - AnimationHeight, EnemyPos1.x + EnemyW, EnemyPos1.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos2.x, EnemyPos2.y - AnimationHeight, EnemyPos2.x + EnemyW, EnemyPos2.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos3.x, EnemyPos3.y - AnimationHeight, EnemyPos3.x + EnemyW, EnemyPos3.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos4.x, EnemyPos4.y - AnimationHeight, EnemyPos4.x + EnemyW, EnemyPos4.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos5.x, EnemyPos5.y - AnimationHeight, EnemyPos5.x + EnemyW, EnemyPos5.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos6.x, EnemyPos6.y - AnimationHeight, EnemyPos6.x + EnemyW, EnemyPos6.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos7.x, EnemyPos7.y - AnimationHeight, EnemyPos7.x + EnemyW, EnemyPos7.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos8.x, EnemyPos8.y - AnimationHeight, EnemyPos8.x + EnemyW, EnemyPos8.y + EnemyH, EnemyGraph, TRUE);
+			DrawExtendGraph(EnemyPos9.x, EnemyPos9.y - AnimationHeight, EnemyPos9.x + EnemyW, EnemyPos9.y + EnemyH, EnemyGraph, TRUE);
+		}
 		// プレイヤー画像と敵画像で当たり判定
-		if (PlayerX + IMAGE_SIZE >= EnemyPos.x && PlayerX <= EnemyPos.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos.y && PlayerY <= EnemyPos.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
+		{
+			if (PlayerX + IMAGE_SIZE >= EnemyPos.x && PlayerX <= EnemyPos.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos.y && PlayerY <= EnemyPos.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}
+			if (PlayerX + IMAGE_SIZE >= EnemyPos1.x && PlayerX <= EnemyPos1.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos1.y && PlayerY <= EnemyPos1.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}
+			if (PlayerX + IMAGE_SIZE >= EnemyPos2.x && PlayerX <= EnemyPos2.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos2.y && PlayerY <= EnemyPos2.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}
+			if (PlayerX + IMAGE_SIZE >= EnemyPos3.x && PlayerX <= EnemyPos3.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos3.y && PlayerY <= EnemyPos3.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}
+			if (PlayerX + IMAGE_SIZE >= EnemyPos4.x && PlayerX <= EnemyPos4.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos4.y && PlayerY <= EnemyPos4.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}if (PlayerX + IMAGE_SIZE >= EnemyPos5.x && PlayerX <= EnemyPos5.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos5.y && PlayerY <= EnemyPos5.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}if (PlayerX + IMAGE_SIZE >= EnemyPos6.x && PlayerX <= EnemyPos6.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos6.y && PlayerY <= EnemyPos6.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}if (PlayerX + IMAGE_SIZE >= EnemyPos7.x && PlayerX <= EnemyPos7.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos7.y && PlayerY <= EnemyPos7.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}if (PlayerX + IMAGE_SIZE >= EnemyPos8.x && PlayerX <= EnemyPos8.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos8.y && PlayerY <= EnemyPos8.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
+			}if (PlayerX + IMAGE_SIZE >= EnemyPos9.x && PlayerX <= EnemyPos9.x + IMAGE_SIZE) {
+				if (PlayerY + IMAGE_SIZE >= EnemyPos9.y && PlayerY <= EnemyPos9.y + IMAGE_SIZE) {
+					// 当たったらプレイヤーをデリート
+					DeleteGraph(PlayerGraph);
+					return GAMEOVERSCENE;
+				}
 			}
 		}
-		if (PlayerX + IMAGE_SIZE >= EnemyPos1.x && PlayerX <= EnemyPos1.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos1.y && PlayerY <= EnemyPos1.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}
-		if (PlayerX + IMAGE_SIZE >= EnemyPos2.x && PlayerX <= EnemyPos2.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos2.y && PlayerY <= EnemyPos2.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}
-		if (PlayerX + IMAGE_SIZE >= EnemyPos3.x && PlayerX <= EnemyPos3.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos3.y && PlayerY <= EnemyPos3.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}
-		if (PlayerX + IMAGE_SIZE >= EnemyPos4.x && PlayerX <= EnemyPos4.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos4.y && PlayerY <= EnemyPos4.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}if (PlayerX + IMAGE_SIZE >= EnemyPos5.x && PlayerX <= EnemyPos5.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos5.y && PlayerY <= EnemyPos5.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}if (PlayerX + IMAGE_SIZE >= EnemyPos6.x && PlayerX <= EnemyPos6.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos6.y && PlayerY <= EnemyPos6.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}if (PlayerX + IMAGE_SIZE >= EnemyPos7.x && PlayerX <= EnemyPos7.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos7.y && PlayerY <= EnemyPos7.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}if (PlayerX + IMAGE_SIZE >= EnemyPos8.x && PlayerX <= EnemyPos8.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos8.y && PlayerY <= EnemyPos8.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}if (PlayerX + IMAGE_SIZE >= EnemyPos9.x && PlayerX <= EnemyPos9.x + IMAGE_SIZE) {
-			if (PlayerY + IMAGE_SIZE >= EnemyPos9.y && PlayerY <= EnemyPos9.y + IMAGE_SIZE) {
-				// 当たったらプレイヤーをデリート
-				DeleteGraph(PlayerGraph);
-				return GAMEOVERSCENE;
-			}
-		}
-
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
 
@@ -1099,8 +1191,10 @@ int GameOverScene()
 	GameOverGraph = LoadGraph("image/gameOver.png");
 	GameOverTxtGraph = LoadGraph("image/GameOverTxt.png");
 	ArrowGraph = LoadGraph("image/arrow.png");
+	GameOverHandle = LoadSoundMem("image/GameOver.mp3");
 
 
+	PlaySoundMem(GameOverHandle, DX_PLAYTYPE_LOOP);
 
 	while (gameRoop)
 	{
