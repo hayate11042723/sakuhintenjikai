@@ -5,31 +5,40 @@
 #define IMAGE_SIZE	50
 #define XINPUT_BUTTON_X
 
+
 int Key;
 int Key1;
 int Key2;
+
 int PlayerX, PlayerY;
-float JumpPower;
-float JumpPower1;
-float JumpPower2;
+int PlayerH, PlayerW;
 int PlayerGraph;
+
+int EnemyW, EnemyH;
+
 int BackGraph;
 int TitleGraph;
 int TitleScrollGraph;
 int ChangeSceenGraph;
 int ChangeSceen2Graph;
+
 int ManualGraph;
+
 int GameOverGraph;
 int GameOverTxtGraph;
+
 int ClearGraph;
 int GameClearTxtGraph;
+
 int ArrowGraph;
-int EnemyW, EnemyH;
-int PlayerH, PlayerW;
+
 int BgmHandle;
 int SeHandle;
 int GameOverHandle;
 
+float JumpPower;
+float JumpPower1;
+float JumpPower2;
 
 constexpr int GAMEEND = 0;
 constexpr int TITLESCENE = 1;
@@ -42,6 +51,8 @@ constexpr int GAMECLEARSCENE = 5;
 bool isInputEnterHold = false;// InputEneter用の変数
 bool isInputUpHold = false;// InputUp用の変数
 bool isInputDownHold = false;// InputDown用の変数
+bool isInputJump1Hold = false;// InputJump1用の変数
+bool isInputJump2Hold = false;// InputJump2用の変数
 
 int TitleScene();
 int ManualScene();
@@ -51,6 +62,8 @@ int GameClearScene();
 bool InputEnter();
 bool InputUp();
 bool InputDown();
+bool InputJump1();
+bool InputJump2();
 
 // エネミー構造体
 VECTOR EnemyPos;
@@ -999,17 +1012,6 @@ int GameScene()
 			EnemyNum++;
 		}
 
-		// 入力状態を取得
-		GetJoypadXInputState(DX_INPUT_PAD2, &input);
-
-		// キー入力取得
-		Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-
-		Key1 = GetJoypadInputState(DX_INPUT_KEY);
-		
-		Key2 = GetJoypadXInputState(DX_INPUT_PAD2, &input);
-
-
 		// 落下処理
 		PlayerY -= JumpPower;
 		PlayerY -= JumpPower1;
@@ -1031,33 +1033,28 @@ int GameScene()
 			PlayerY = 600;
 			JumpPower = 0;
 			JumpPower1 = 0;
-			JumpPower2 = 0;
 			JumpNum = 0;
 		}
 
-		// Zキーを押したらジャンプする
-		if ((Key & PAD_INPUT_1) && PlayerY == 600)
+		if (InputJump1())
 		{
-			JumpPower = 24;
-			JumpNum = 1;
-			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
-			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+			if (PlayerY == 600)
+			{
+				JumpPower = 24;
+				JumpNum = 1;
+				// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+				PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+			}
 		}
-		// Xキーを押したらジャンプする
-		if ((Key1 & PAD_INPUT_2) && JumpNum == 1)
+		if (InputJump2())
 		{
-			JumpPower1 = 15;
-			JumpNum = 2;
-			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
-			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
-		}
-		// Zキーを押したらジャンプする
-		if (DX_INPUT_PAD2 && JumpNum == 1)
-		{
-			JumpPower1 = 15;
-			JumpNum = 2;
-			// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
-			PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+			if (JumpNum == 1)
+			{
+				JumpPower1 = 15;
+				JumpNum = 2;
+				// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+				PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+			}
 		}
 
 		// エネミーの移動処理
@@ -1337,21 +1334,21 @@ int GameClearScene()
 
 		}
 	}
-
 	
 	return TITLESCENE;
 }
 
 bool InputEnter()
 {
+	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (CheckHitKey(KEY_INPUT_RETURN) && !isInputEnterHold)
+	if (Key == (PAD_INPUT_8) && !isInputEnterHold)
 	{
 		isInputEnterHold = true;
 		return true;
 	}
-	else if (!CheckHitKey(KEY_INPUT_RETURN))
+	else if (!Key)
 	{
 		isInputEnterHold = false;
 	}
@@ -1362,32 +1359,76 @@ bool InputEnter()
 //Upが押されたかどうかを判定する関数
 bool InputUp()
 {
+	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+
 	//指定フレーム以上押していたら押した判定
-	if (CheckHitKey(KEY_INPUT_UP) && !isInputDownHold)
+	if (Key1 == (PAD_INPUT_UP) && !isInputDownHold)
 	{
 		isInputDownHold = true;
 		return true;
 	}
-	else if (!CheckHitKey(KEY_INPUT_UP))
+	else if (!Key1)
 	{
 		isInputDownHold = false;
 	}
 
 	return false;
 }
+
 //Downが押されたかどうかを判定する関数
 bool InputDown()
 {
+	Key2 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+
 	//指定フレーム以上押していたら押した判定
-	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputUpHold)
+	if (Key2 == (PAD_INPUT_DOWN) && !isInputUpHold)
 	{
 		isInputUpHold = true;
 		return true;
 	}
-	else if (!CheckHitKey(KEY_INPUT_DOWN))
+	else if (!Key2)
 	{
 		isInputUpHold = false;
 	}
 
 	return false;
 }
+
+//Jump1が押されたかどうかを判定する関数
+bool InputJump1()
+{
+	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+
+	//指定フレーム以上押していたら押した判定
+	if (Key == (PAD_INPUT_1) && !isInputJump1Hold)
+	{
+		isInputJump1Hold = true;
+		return true;
+	}
+	else if (!Key)
+	{
+		isInputJump1Hold = false;
+	}
+
+	return false;
+}
+
+//Jump2が押されたかどうかを判定する関数
+bool InputJump2()
+{
+	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+
+	//指定フレーム以上押していたら押した判定
+	if (Key1 == (PAD_INPUT_3) && !isInputJump2Hold)
+	{
+		isInputJump2Hold = true;
+		return true;
+	}
+	else if (!Key1)
+	{
+		isInputJump2Hold = false;
+	}
+
+	return false;
+}
+
