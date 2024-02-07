@@ -30,6 +30,7 @@ int GameOverTxtGraph;
 
 int ClearGraph;
 int GameClearTxtGraph;
+int SlimeAyeGraph;
 
 int ArrowGraph;
 
@@ -745,7 +746,7 @@ int GameScene()
 	int JumpNum = 0;
 
 	// ゲームループ
-	while (GetNowCount() - StartTime < 60000)
+	while (GetNowCount() - StartTime < 6000)
 	{
 
 		// 描画を行う前に画面をクリアする
@@ -1371,10 +1372,13 @@ int GameClearScene()
 	int arrowPosY = -120;
 	int countFrame = 0;
 	bool gameRoop = true;
+	int SlimeAyeW, SlimeAyeH;
 
 	ClearGraph = LoadGraph("image/clear.png");
 	GameClearTxtGraph = LoadGraph("image/GameClearTxt.png");
-	ArrowGraph = LoadGraph("image/arrow.png");
+	ArrowGraph = LoadGraph("image/arrow1.png");
+	SlimeAyeGraph = LoadGraph("image/SimeAye.png");
+	GetGraphSize(SlimeAyeGraph, &SlimeAyeW, &SlimeAyeH);
 
 	while (gameRoop)
 	{
