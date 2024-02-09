@@ -5,7 +5,6 @@
 #define IMAGE_SIZE	50
 #define XINPUT_BUTTON_X
 
-
 int Key;
 int Key1;
 int Key2;
@@ -22,6 +21,8 @@ int TitleScrollGraph;
 int ChangeSceenGraph;
 int ChangeSceen2Graph;
 
+int BackGlassGraph;
+
 int ManualGraph;
 int Manual2Graph;
 
@@ -30,7 +31,13 @@ int GameOverTxtGraph;
 
 int ClearGraph;
 int GameClearTxtGraph;
+
+int SkyGraph;
+int MountainGraph;
+int GraundGraph;
+
 int SlimeAyeGraph;
+int SlimeAye2Graph;
 
 int ArrowGraph;
 
@@ -116,8 +123,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// BGM
 	BgmHandle = LoadSoundMem("image/maou_game_village05.mp3");
 
-	
-
 	EnemyPos.x = 800;
 	EnemyPos.y = 800;
 
@@ -152,6 +157,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
 
+				StopSoundMem(BgmHandle);
 			}
 		}	
 		else if (nextScene == STARTMANUALSCENE)
@@ -305,6 +311,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				EnemyPos9.x = 800;
 				EnemyPos9.y = 800;
 
+				StopSoundMem(BgmHandle);
 				// BGMをメモリにロード
 				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 			}
@@ -319,8 +326,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
-				// BGMをメモリにロード
-				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
+
+				StopSoundMem(BgmHandle);
 			}
 		}
 		else if (nextScene == GAMEEND)
@@ -375,7 +382,7 @@ int TitleScene()
 	ChangeSceen2Graph = LoadGraph("image/ChangeSceen(2).png");
 
 	// グラフィック『arrow.png』をメモリにロード
-	ArrowGraph = LoadGraph("image/arrow.png");
+	ArrowGraph = LoadGraph("image/arrow2.png");
 	
 	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
@@ -402,31 +409,31 @@ int TitleScene()
 		{
 			if (arrowPosY == 0)
 			{
-				arrowPosY = 40;
+				arrowPosY = 60;
 			}
-			else if (arrowPosY == 40 , arrowPosY > 80)
+			else if (arrowPosY == 60 , arrowPosY > 120)
 			{
 				arrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 80;
+				arrowPosY = 120;
 			}
 		}
 		//Input Up.
 		if (InputUp())
 		{
-			if (arrowPosY == 80)
+			if (arrowPosY == 120)
 			{
-				arrowPosY = 40;
+				arrowPosY = 60;
 			}
-			else if (arrowPosY == 40, arrowPosY < 80)
+			else if (arrowPosY == 60, arrowPosY < 120)
 			{
 				arrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 80;
+				arrowPosY = 120;
 			}
 		}
 
@@ -510,13 +517,6 @@ int TitleScene()
 		if (countFrame == 220)JumpPower = 24;
 		if (countFrame == 375)JumpPower1 = 29;
 
-
-		//タイトルロゴ
-		//SetFontSize(80);//フォントサイズ変更
-		//DrawString(440, 240, "", GetColor(255, 255, 255));
-		//SetFontSize(40);//フォントサイズ上
-		//DrawString(460, 320, "-GameTemplate1-", GetColor(255, 255, 255));
-		//SetFontSize(20);//フォントサイズ初期化
 		//矢印表示(点滅させる)
 		if ((countFrame % 60) < 32)
 		{
@@ -710,7 +710,6 @@ int StartManualScene()
 		return GAMESCENE;
 }
 
-
 int GameScene()
 {
 	int EnemyGraph;
@@ -720,7 +719,8 @@ int GameScene()
 	int Time;
 	int areaX = 0;
 	int speed = 3;
-	unsigned int Cr;
+	unsigned int Cr1;
+	unsigned int Cr2;
 	int nextScene = GAMESCENE;
 
 	// グラフィック『player.png』をメモリにロード
@@ -733,7 +733,8 @@ int GameScene()
 	BackGraph = LoadGraph("image/back.png");
 	// 音源『SlimeSe.mp3』をメモリにロード
 	SeHandle = LoadSoundMem("image/SlimeSe.mp3");
-
+	// グラフィック『TimeWindow.png』をメモリにロード
+	BackGlassGraph = LoadGraph("image/TimeWindow.png");
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
@@ -746,7 +747,7 @@ int GameScene()
 	int JumpNum = 0;
 
 	// ゲームループ
-	while (GetNowCount() - StartTime < 6000)
+	while (GetNowCount() - StartTime < 60000)
 	{
 
 		// 描画を行う前に画面をクリアする
@@ -763,8 +764,11 @@ int GameScene()
 			areaX = 0;
 		}
 
+		DrawGraph(15, -10, BackGlassGraph, true);
+
 		// 白の色コードを保存
-		Cr = GetColor(200, 100, 0);
+		Cr1 = GetColor(255 , 200, 20);
+		Cr2 = GetColor(0, 0, 0);
 		Time = GetNowCount() - StartTime;
 
 		SetFontSize(34);
@@ -773,8 +777,10 @@ int GameScene()
 
 		ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
 
-		DrawFormatString(50, 20, Cr, "経過時間");
-		DrawFormatString(60, 60, Cr, "%d秒", Time / 1000);
+		DrawFormatString(53, 23, Cr2, "経過時間");
+		DrawFormatString(63, 63, Cr2, "%d秒", Time / 1000);
+		DrawFormatString(50, 20, Cr1, "経過時間");
+		DrawFormatString(60, 60, Cr1, "%d秒", Time / 1000);
 
 		// エネミーの出現処理
 		if (EnemyNum == 0 && Time >= 0) {
@@ -1092,16 +1098,6 @@ int GameScene()
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		//if (EnemyNum == 63 && Time >= 57400) {
-		//	EnemyPos6.x = 1270;
-		//	EnemyPos6.y = 460;
-		//	EnemyNum++;
-		//}
-		//if (EnemyNum == 64 && Time >= 57400) {
-		//	EnemyPos7.x = 1270;
-		//	EnemyPos7.y = 600;
-		//	EnemyNum++;
-		//}
 
 		// 落下処理
 		PlayerY -= JumpPower;
@@ -1133,13 +1129,11 @@ int GameScene()
 			{
 				if (InputJump2())
 				{
-					
 					JumpPower = 24;
 					JumpPower1 = 15;
 					JumpNum = 2;
 					// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
 					PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
-					
 				}
 				else
 				{
@@ -1160,8 +1154,6 @@ int GameScene()
 				PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
 			}
 		}
-	
-
 
 		// エネミーの移動処理
 		{
@@ -1277,7 +1269,6 @@ int GameScene()
 		{
 			return TITLESCENE;
 		}
-
 	}
 
 	//例外処理
@@ -1296,13 +1287,12 @@ int GameOverScene()
 	ArrowGraph = LoadGraph("image/arrow.png");
 	GameOverHandle = LoadSoundMem("image/GameOver.mp3");
 
-
 	PlaySoundMem(GameOverHandle, DX_PLAYTYPE_LOOP);
 
 	while (gameRoop)
 	{
 		/*計算処理*/
-	//Input Down.
+		//Input Down.
 		if (InputDown())
 		{
 			if (arrowPosY == 60)
@@ -1327,7 +1317,6 @@ int GameOverScene()
 			}
 		}
 
-
 		/*タイマ更新*/
 		countFrame++;
 		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
@@ -1345,7 +1334,6 @@ int GameOverScene()
 			DrawGraph(0, arrowPosY, ArrowGraph, true);
 		}
 
-
 		ScreenFlip();
 
 		/*シーン遷移処理*/
@@ -1360,54 +1348,56 @@ int GameOverScene()
 			{
 				return TITLESCENE;
 			}
-
 		}
 	}
-	
 }
 
 int GameClearScene()
 {
 	int nextScene = GAMECLEARSCENE;
-	int arrowPosY = -120;
+	int arrowPosY = 10;
 	int countFrame = 0;
 	bool gameRoop = true;
 	int SlimeAyeW, SlimeAyeH;
+	int areaX = 0;
+	int speed = 1;
 
 	ClearGraph = LoadGraph("image/clear.png");
 	GameClearTxtGraph = LoadGraph("image/GameClearTxt.png");
 	ArrowGraph = LoadGraph("image/arrow1.png");
-	SlimeAyeGraph = LoadGraph("image/SimeAye.png");
-	GetGraphSize(SlimeAyeGraph, &SlimeAyeW, &SlimeAyeH);
+	SlimeAyeGraph = LoadGraph("image/SlimeAye.png");
+	SlimeAye2Graph = LoadGraph("image/SlimeAye2.png");
+	SkyGraph = LoadGraph("image/Sky.png");
+	MountainGraph = LoadGraph("image/mountain.png");
+	GraundGraph = LoadGraph("image/Graund.png");
 
 	while (gameRoop)
 	{
-		/*計算処理*/
-//Input Down.
-		if (InputDown())
-		{
-			if (arrowPosY == -120)
-			{
-				arrowPosY = -30;
-			}
-			else
-			{
-				arrowPosY = -120;
-			}
-		}
-		//Input Up.
-		if (InputUp())
-		{
-			if (arrowPosY == -30)
-			{
-				arrowPosY = -120;
-			}
-			else
-			{
-				arrowPosY = -30;
-			}
-		}
-
+		///*計算処理*/
+		////Input Down.
+		//if (InputDown())
+		//{
+		//	if (arrowPosY == -120)
+		//	{
+		//		arrowPosY = -30;
+		//	}
+		//	else
+		//	{
+		//		arrowPosY = -120;
+		//	}
+		//}
+		////Input Up.
+		//if (InputUp())
+		//{
+		//	if (arrowPosY == -30)
+		//	{
+		//		arrowPosY = -120;
+		//	}
+		//	else
+		//	{
+		//		arrowPosY = -30;
+		//	}
+		//}
 
 		/*タイマ更新*/
 		countFrame++;
@@ -1417,14 +1407,36 @@ int GameClearScene()
 		//裏画面の初期化
 		ClearDrawScreen();
 
+		BackScroll(areaX, SkyGraph, 1280, 720);
+
+		areaX += speed;
+		if (areaX > 1280)
+		{
+			areaX = 0;
+		}
+	
+		DrawGraph(0, 0, MountainGraph, true);
+		DrawGraph(0, 0, GraundGraph, true);
+
 		DrawGraph(0, 0, ClearGraph, true);
 
+		if ((countFrame % 100) < 97)
+		{
+			DrawGraph(0, 0, SlimeAyeGraph, true);
+		}
+		else
+		{
+			DrawGraph(0, 0, SlimeAye2Graph, true);
+		}
+		
 		DrawGraph(0, 0, GameClearTxtGraph, true);
 
 		if ((countFrame % 60) < 32)
 		{
-			DrawGraph(0, arrowPosY, ArrowGraph, true);
+			DrawGraph(-10, arrowPosY, ArrowGraph, true);
 		}
+		
+
 
 		ScreenFlip();
 
@@ -1432,15 +1444,10 @@ int GameClearScene()
 		//エンターでシーン変更
 		if (InputEnter())
 		{
-			if (arrowPosY == -120)
-			{
-				return GAMESCENE;
-			}
-			else
+			if (arrowPosY == 10)
 			{
 				return TITLESCENE;
 			}
-
 		}
 	}
 	
@@ -1540,25 +1547,3 @@ bool InputJump2()
 
 	return false;
 }
-//
-//bool InputJump3()
-//{
-//	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-//	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-//
-//	//指定フレーム以上押していたら押した判定
-//	if (Key == (PAD_INPUT_1) && !isInputJump3Hold)
-//	{
-//		if (Key1 == (PAD_INPUT_3) && !isInputJump3Hold)
-//		{
-//			isInputJump3Hold = true;
-//			return true;
-//		}
-//	}
-//	else if (!Key)
-//	{
-//		isInputJump3Hold = false;
-//	}
-//
-//	return false;
-//}
