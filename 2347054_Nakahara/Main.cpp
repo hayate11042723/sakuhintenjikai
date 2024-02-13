@@ -20,6 +20,9 @@ int PlayerGraph;
 
 int EnemyW, EnemyH;
 
+int Telop1Graph;
+int Telop2Graph;
+
 int BackGraph;
 int TitleGraph;
 int TitleScrollGraph;
@@ -95,6 +98,9 @@ VECTOR EnemyPos7;
 VECTOR EnemyPos8;
 VECTOR EnemyPos9;
 
+VECTOR TelopPos1;
+VECTOR TelopPos2;
+
 XINPUT_STATE input;
 
 void BackScroll(const int t_areaX, const int tD_graph, const int t_winWidth, const int t_winHeight)
@@ -162,6 +168,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				EnemyPos2.x = 800;
 				EnemyPos2.y = 800;
 
+				TelopPos1.x = 800;
+				TelopPos1.y = 800;
+
+				TelopPos2.x = 800;
+				TelopPos2.y = 800;
+
 				StopSoundMem(BgmHandle);
 			}
 		}	
@@ -200,6 +212,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos9.x = 800;
 				EnemyPos9.y = 800;
+
+				TelopPos1.x = 800;
+				TelopPos1.y = 800;
+
+				TelopPos2.x = 800;
+				TelopPos2.y = 800;
 			}
 		}
 		else if (nextScene == GAMESCENE)
@@ -208,20 +226,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (nextScene == GAMEOVERSCENE)
 			{
-				StopSoundMem(BgmHandle);
-			}
-
-			if (nextScene == TITLESCENE) 
-			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
-
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
-
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
-
 				StopSoundMem(BgmHandle);
 			}
 		}
@@ -274,6 +278,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				EnemyPos9.x = 800;
 				EnemyPos9.y = 800;
+
+				TelopPos1.x = 800;
+				TelopPos1.y = 800;
+
+				TelopPos2.x = 800;
+				TelopPos2.y = 800;
 
 				StopSoundMem(GameOverHandle);
 				// BGMをメモリにロード
@@ -358,7 +368,11 @@ int TitleScene()
 	// グラフィック『enemy.png』をメモリにロード
 	EnemyGraph = LoadGraph("image/enemy.png");
 	GetGraphSize(EnemyGraph, &EnemyW, &EnemyH);
-	
+
+	// グラフィック『Telop1・2.png』をメモリにロード
+	Telop1Graph = LoadGraph("image/Telop1.png");
+	Telop2Graph = LoadGraph("image/Telop2.png");
+
 	// BGMをメモリにロード
 	PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 
@@ -683,7 +697,7 @@ int GameScene()
 	bool gameRoop = true;
 	int phase = 0;
 	int StartTime;
-	int Time = 0;
+	Time = 0;
 	int areaX = 0;
 	int speed = 3;
 	unsigned int Cr1;
@@ -856,211 +870,212 @@ int GameScene()
 			EnemyNum++;
 		}
 		if (EnemyNum == 21 && Time >= 30000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
+			TelopPos1.x = 690;
+			TelopPos1.y = 0;
 			EnemyNum++;
 		}
 		if (EnemyNum == 22 && Time >= 32000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 310;
+		
 			EnemyNum++;
 		}
-		if (EnemyNum == 23 && Time >= 32000) {
+		if (EnemyNum == 23 && Time >= 33000) {
+			EnemyPos9.x = 1270;
+			EnemyPos9.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 24 && Time >= 33000) {
+			EnemyPos.x = 1270;
+			EnemyPos.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 25 && Time >= 34000) {
+			EnemyPos1.x = 1280;
+			EnemyPos1.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 26 && Time >= 34000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 27 && Time >= 35000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 24 && Time >= 33000) {
+		if (EnemyNum == 28 && Time >= 36000) {
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 29 && Time >= 36000) {
+			EnemyPos5.x = 1270;
+			EnemyPos5.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 30 && Time >= 37000) {
+			EnemyPos6.x = 1280;
+			EnemyPos6.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 31 && Time >= 37000) {
+			EnemyPos7.x = 1270;
+			EnemyPos7.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 32 && Time >= 38000) {
+			EnemyPos8.x = 1270;
+			EnemyPos8.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 33 && Time >= 39000) {
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 34 && Time >= 40000) {
 			EnemyPos4.x = 1280;
 			EnemyPos4.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 25 && Time >= 35000) {
+		if (EnemyNum == 35 && Time >= 41000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 26 && Time >= 35000) {
+		if (EnemyNum == 36 && Time >= 41000) {
 			EnemyPos1.x = 1270;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 27 && Time >= 36000) {
+		if (EnemyNum == 37 && Time >= 42000) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}	
-		if (EnemyNum == 28 && Time >= 38000) {
+		if (EnemyNum == 38 && Time >= 42000) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 29 && Time >= 38000) {
+		if (EnemyNum == 39 && Time >= 43000) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 30 && Time >= 39000) {
+		if (EnemyNum == 40 && Time >= 44000) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 31 && Time >= 41000) {
+		if (EnemyNum == 41 && Time >= 44000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 32 && Time >= 41000) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 310;
+		if (EnemyNum == 42 && Time >= 45000) {
+			TelopPos2.x = 690;
+			TelopPos2.y = 0;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 33 && Time >= 42000) {
+		if (EnemyNum == 43 && Time >= 47000) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 34 && Time >= 44000) {
+		if (EnemyNum == 44 && Time >= 47000) {
 			EnemyPos6.x = 1280;
 			EnemyPos6.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 35 && Time >= 44000) {
+		if (EnemyNum == 45 && Time >= 47850) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 36 && Time >= 45000) {
+		if (EnemyNum == 46 && Time >= 47850) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 37 && Time >= 45000) {
+		if (EnemyNum == 47 && Time >= 48700) {
 			EnemyPos9.x = 1270;
 			EnemyPos9.y = 310;
 			EnemyNum++;
 		}	
-		if (EnemyNum == 38 && Time >= 46000) {
+		if (EnemyNum == 48 && Time >= 49550) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 39 && Time >= 46000) {
+		if (EnemyNum == 49 && Time >= 49550) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 40 && Time >= 47000) {
+		if (EnemyNum == 50 && Time >= 50400) {
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 41 && Time >= 47000) {
+		if (EnemyNum == 51 && Time >= 50400) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 42 && Time >= 48000) {
+		if (EnemyNum == 52 && Time >= 51250) {
 			EnemyPos4.x = 1270;
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 43 && Time >= 48000) {
+		if (EnemyNum == 53 && Time >= 52100) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 44 && Time >= 49000) {
+		if (EnemyNum == 54 && Time >= 52100) {
 			EnemyPos6.x = 1280;
 			EnemyPos6.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 45 && Time >= 49000) {
+		if (EnemyNum == 55 && Time >= 52950) {
 			EnemyPos7.x = 1270;
 			EnemyPos7.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 46 && Time >= 50000) {
+		if (EnemyNum == 56 && Time >= 52950) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 47 && Time >= 50000) {
+		if (EnemyNum == 57 && Time >= 53800) {
 			EnemyPos9.x = 1270;
 			EnemyPos9.y = 310;
 			EnemyNum++;
 		}		
-		if (EnemyNum == 48 && Time >= 50700) {
+		if (EnemyNum == 58 && Time >= 54650) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 49 && Time >= 50700) {
+		if (EnemyNum == 59 && Time >= 54650) {
 			EnemyPos1.x = 1280;
 			EnemyPos1.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 50 && Time >= 51500) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
+		if (EnemyNum == 60 && Time >= 55500) {
+	
 			EnemyNum++;
 		}
-		if (EnemyNum == 51 && Time >= 52300) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
+		if (EnemyNum == 61 && Time >= 55500) {
+
 			EnemyNum++;
 		}
-		if (EnemyNum == 52 && Time >= 52300) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 460;
+		if (EnemyNum == 62 && Time >= 56350) {
+
 			EnemyNum++;
 		}		
-		if (EnemyNum == 53 && Time >= 53150) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 54 && Time >= 53150) {
-			EnemyPos6.x = 1280;
-			EnemyPos6.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 55 && Time >= 54000) {
-			EnemyPos7.x = 1270;
-			EnemyPos7.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 56 && Time >= 54000) {
-			EnemyPos8.x = 1270;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 57 && Time >= 54850) {
-			EnemyPos9.x = 1270;
-			EnemyPos9.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 58 && Time >= 54850) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 59 && Time >= 55700) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 60 && Time >= 55700) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 61 && Time >= 56550) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 62 && Time >= 56550) {
+		if (EnemyNum == 63 && Time >= 56350) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
@@ -1122,6 +1137,9 @@ int GameScene()
 			}
 		}
 
+		TelopPos1.x -= 10;
+		TelopPos2.x -= 10;
+
 		// エネミーの移動処理
 		{
 			EnemyPos.x -= 10;
@@ -1135,7 +1153,8 @@ int GameScene()
 			EnemyPos8.x -= 10;
 			EnemyPos9.x -= 10;
 		}
-
+		DrawGraph(TelopPos1.x, TelopPos1.y, Telop1Graph, true);
+		DrawGraph(TelopPos2.x, TelopPos2.y, Telop2Graph, true);
 		const float SinSpeed = 0.1f;
 		const float AnimationSize = 8.0f;
 		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
@@ -1304,8 +1323,8 @@ int GameOverScene()
 
 		ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
 
-		DrawFormatString(103, 303, Cr2, "経過時間");
-		DrawFormatString(183, 383, Cr2, "%d秒", Time / 1000);
+		DrawFormatString(105, 305, Cr2, "経過時間");
+		DrawFormatString(185, 385, Cr2, "%d秒", Time / 1000);
 		DrawFormatString(100, 300, Cr1, "経過時間");
 		DrawFormatString(180, 380, Cr1, "%d秒", Time / 1000);
 
@@ -1434,7 +1453,7 @@ bool InputEnter()
 	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key == (PAD_INPUT_8) && !isInputEnterHold)
+	if (Key == (PAD_INPUT_1) && !isInputEnterHold)
 	{
 		isInputEnterHold = true;
 		return true;
