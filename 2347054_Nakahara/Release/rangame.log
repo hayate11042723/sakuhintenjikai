@@ -1,71 +1,73 @@
 ﻿  Main.cpp
 C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(6,1): warning C4005: 'XINPUT_BUTTON_X': マクロが再定義されました。
 C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(923,1): message : 'XINPUT_BUTTON_X' の以前の定義を確認してください
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(472,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(474,93): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(474,72): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(474,42): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(474,27): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(475,97): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(475,75): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(475,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(475,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(476,97): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(476,75): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(476,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(476,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(490,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(491,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(592,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(616,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(670,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(694,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1106,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1107,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1187,37): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1191,94): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1191,73): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1191,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1191,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1192,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1192,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1192,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1192,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1193,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1193,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1193,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1193,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1194,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1194,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1194,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1194,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1195,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1195,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1195,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1195,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1196,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1196,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1196,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1196,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1197,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1197,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1197,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1197,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1198,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1198,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1198,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1198,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1199,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1199,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1199,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1199,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1200,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1200,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1200,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1200,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(447,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(449,93): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(449,72): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(449,42): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(449,27): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(450,97): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(450,75): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(450,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(450,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(451,97): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(451,75): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(451,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(451,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(465,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(466,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(560,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(584,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(638,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(662,36): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1070,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1071,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1147,37): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1151,94): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1151,73): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1151,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1151,28): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1152,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1152,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1152,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1152,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1153,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1153,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1153,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1153,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1154,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1154,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1154,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1154,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1155,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1155,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1155,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1155,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1156,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1156,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1156,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1156,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1157,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1157,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1157,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1157,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1158,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1158,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1158,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1158,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1159,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1159,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1159,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1159,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1160,98): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1160,76): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1160,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1160,29): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1336,17): warning C4101: 'SlimeAyeH': ローカル変数は 1 度も使われていません。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1336,6): warning C4101: 'SlimeAyeW': ローカル変数は 1 度も使われていません。
   コード生成しています。
   Previous IPDB not found, fall back to full compilation.
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1366): warning C4715: 'GameOverScene': 値を返さないコントロール パスがあります。
+C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(1328): warning C4715: 'GameOverScene': 値を返さないコントロール パスがあります。
   All 13 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
   rangame.vcxproj -> C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\x64\Release\rangame.exe

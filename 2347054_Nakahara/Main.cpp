@@ -9,6 +9,11 @@ int Key;
 int Key1;
 int Key2;
 
+int Cr1;
+int Cr2;
+
+int Time;
+
 int PlayerX, PlayerY;
 int PlayerH, PlayerW;
 int PlayerGraph;
@@ -106,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int nextScene = TITLESCENE;
 
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
-	ChangeWindowMode(true);
+	ChangeWindowMode(false);
 	SetWindowText("すらいむすとろぉく");
 
 	//if (KEY_INPUT_ESCAPE) {
@@ -278,44 +283,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		else if (nextScene == GAMECLEARSCENE)
 		{
 			nextScene = GameClearScene();
-
-			if (nextScene == GAMESCENE)
-			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
-
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
-
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
-
-				EnemyPos3.x = 800;
-				EnemyPos3.y = 800;
-
-				EnemyPos4.x = 800;
-				EnemyPos4.y = 800;
-
-				EnemyPos5.x = 800;
-				EnemyPos5.y = 800;
-
-				EnemyPos6.x = 800;
-				EnemyPos6.y = 800;
-
-				EnemyPos7.x = 800;
-				EnemyPos7.y = 800;
-
-				EnemyPos8.x = 800;
-				EnemyPos8.y = 800;
-
-				EnemyPos9.x = 800;
-				EnemyPos9.y = 800;
-
-				StopSoundMem(BgmHandle);
-				// BGMをメモリにロード
-				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
-			}
-
 			if (nextScene == TITLESCENE) 
 			{
 				EnemyPos.x = 800;
@@ -534,7 +501,7 @@ int TitleScene()
 			{
 				return STARTMANUALSCENE;
 			}
-			else if (arrowPosY == 40)
+			else if (arrowPosY == 60)
 			{
 				return MANUALSCENE;
 			}
@@ -716,7 +683,7 @@ int GameScene()
 	bool gameRoop = true;
 	int phase = 0;
 	int StartTime;
-	int Time;
+	int Time = 0;
 	int areaX = 0;
 	int speed = 3;
 	unsigned int Cr1;
@@ -1262,13 +1229,6 @@ int GameScene()
 		}
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
-
-		/*シーン遷移処理*/
-			//エンターでシーン変更
-		if (InputEnter())
-		{
-			return TITLESCENE;
-		}
 	}
 
 	//例外処理
@@ -1278,13 +1238,13 @@ int GameScene()
 int GameOverScene()
 {
 	int nextScene = GAMEOVERSCENE;
-	int arrowPosY = 60;
+	int arrowPosY = 0;
 	int countFrame = 0;
 	bool gameRoop = true;
 
 	GameOverGraph = LoadGraph("image/gameOver.png");
 	GameOverTxtGraph = LoadGraph("image/GameOverTxt.png");
-	ArrowGraph = LoadGraph("image/arrow.png");
+	ArrowGraph = LoadGraph("image/arrow3.png");
 	GameOverHandle = LoadSoundMem("image/GameOver.mp3");
 
 	PlaySoundMem(GameOverHandle, DX_PLAYTYPE_LOOP);
@@ -1295,25 +1255,25 @@ int GameOverScene()
 		//Input Down.
 		if (InputDown())
 		{
-			if (arrowPosY == 60)
+			if (arrowPosY == 0)
 			{
-				arrowPosY = 150;
+				arrowPosY = 80;
 			}
 			else
 			{
-				arrowPosY = 60;
+				arrowPosY = 0;
 			}
 		}
 		//Input Up.
 		if (InputUp())
 		{
-			if (arrowPosY == 150)
+			if (arrowPosY == 80)
 			{
-				arrowPosY = 60;
+				arrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 150;
+				arrowPosY = 80;
 			}
 		}
 
@@ -1334,13 +1294,28 @@ int GameOverScene()
 			DrawGraph(0, arrowPosY, ArrowGraph, true);
 		}
 
+		Cr1 = GetColor(255, 200, 20);
+		Cr2 = GetColor(0, 0, 0);
+
+
+		SetFontSize(68);
+
+		ChangeFont("HG創英角ﾎﾟｯﾌﾟ体");
+
+		ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
+
+		DrawFormatString(103, 303, Cr2, "経過時間");
+		DrawFormatString(183, 383, Cr2, "%d秒", Time / 1000);
+		DrawFormatString(100, 300, Cr1, "経過時間");
+		DrawFormatString(180, 380, Cr1, "%d秒", Time / 1000);
+
 		ScreenFlip();
 
 		/*シーン遷移処理*/
 		//エンターでシーン変更
 		if (InputEnter())
 		{
-			if (arrowPosY == 60)
+			if (arrowPosY == 0)
 			{
 				return GAMESCENE;
 			}
