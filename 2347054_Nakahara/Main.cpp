@@ -879,98 +879,96 @@ int GameScene()
 			EnemyNum++;
 		}
 		if (EnemyNum == 23 && Time >= 33000) {
-			EnemyPos9.x = 1270;
-			EnemyPos9.y = 310;
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 310;
 			EnemyNum++;
 		}
 		if (EnemyNum == 24 && Time >= 33000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 25 && Time >= 34000) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 26 && Time >= 34000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 27 && Time >= 35000) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 28 && Time >= 36000) {
-			EnemyPos4.x = 1270;
+		if (EnemyNum == 25 && Time >= 34000) {
+			EnemyPos4.x = 1280;
 			EnemyPos4.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 29 && Time >= 36000) {
+		if (EnemyNum == 26 && Time >= 34000) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 30 && Time >= 37000) {
-			EnemyPos6.x = 1280;
-			EnemyPos6.y = 310;
+		if (EnemyNum == 27 && Time >= 35000) {
+			EnemyPos6.x = 1270;
+			EnemyPos6.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 31 && Time >= 37000) {
+		if (EnemyNum == 28 && Time >= 36000) {
 			EnemyPos7.x = 1270;
-			EnemyPos7.y = 600;
+			EnemyPos7.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 32 && Time >= 38000) {
+		if (EnemyNum == 29 && Time >= 36000) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 33 && Time >= 39000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
+		if (EnemyNum == 30 && Time >= 37000) {
+			EnemyPos9.x = 1280;
+			EnemyPos9.y = 310;
 			EnemyNum++;
 		}
-		if (EnemyNum == 34 && Time >= 40000) {
-			EnemyPos4.x = 1280;
-			EnemyPos4.y = 600;
+		if (EnemyNum == 31 && Time >= 37000) {
+			EnemyPos.x = 1270;
+			EnemyPos.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 32 && Time >= 38000) {
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 33 && Time >= 39000) {
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 310;
+			EnemyNum++;
+		}
+		if (EnemyNum == 34 && Time >= 39000) {
+			EnemyPos3.x = 1280;
+			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
 		if (EnemyNum == 35 && Time >= 41000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 600;
 			EnemyNum++;
 		}
 		if (EnemyNum == 36 && Time >= 41000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 310;
+			EnemyPos5.x = 1270;
+			EnemyPos5.y = 310;
 			EnemyNum++;
 		}
 		if (EnemyNum == 37 && Time >= 42000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
+			EnemyPos6.x = 1270;
+			EnemyPos6.y = 600;
 			EnemyNum++;
 		}	
 		if (EnemyNum == 38 && Time >= 42000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
+			EnemyPos7.x = 1270;
+			EnemyPos7.y = 310;
 			EnemyNum++;
 		}
 		if (EnemyNum == 39 && Time >= 43000) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 310;
+			EnemyPos8.x = 1280;
+			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 40 && Time >= 44000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
+		if (EnemyNum == 40 && Time >= 43000) {
+			EnemyPos9.x = 1280;
+			EnemyPos9.y = 310;
 			EnemyNum++;
 		}
 		if (EnemyNum == 41 && Time >= 44000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
 		if (EnemyNum == 42 && Time >= 45000) {
@@ -979,105 +977,108 @@ int GameScene()
 			EnemyNum++;
 		}		
 		if (EnemyNum == 43 && Time >= 47000) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 600;
 			EnemyNum++;
 		}
 		if (EnemyNum == 44 && Time >= 47000) {
-			EnemyPos6.x = 1280;
-			EnemyPos6.y = 310;
+			EnemyPos2.x = 1280;
+			EnemyPos2.y = 460;
 			EnemyNum++;
 		}
 		if (EnemyNum == 45 && Time >= 47850) {
-			EnemyPos7.x = 1270;
-			EnemyPos7.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 46 && Time >= 47850) {
-			EnemyPos8.x = 1270;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 47 && Time >= 48700) {
-			EnemyPos9.x = 1270;
-			EnemyPos9.y = 310;
-			EnemyNum++;
-		}	
-		if (EnemyNum == 48 && Time >= 49550) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 49 && Time >= 49550) {
-			EnemyPos1.x = 1280;
-			EnemyPos1.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 50 && Time >= 50400) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 51 && Time >= 50400) {
 			EnemyPos3.x = 1270;
 			EnemyPos3.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 52 && Time >= 51250) {
+		if (EnemyNum == 46 && Time >= 47850) {
 			EnemyPos4.x = 1270;
-			EnemyPos4.y = 310;
+			EnemyPos4.y = 460;
 			EnemyNum++;
-		}		
-		if (EnemyNum == 53 && Time >= 52100) {
+		}
+		if (EnemyNum == 47 && Time >= 48700) {
 			EnemyPos5.x = 1270;
 			EnemyPos5.y = 600;
 			EnemyNum++;
-		}
-		if (EnemyNum == 54 && Time >= 52100) {
-			EnemyPos6.x = 1280;
-			EnemyPos6.y = 310;
+		}	
+		if (EnemyNum == 48 && Time >= 49550) {
+			EnemyPos6.x = 1270;
+			EnemyPos6.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 55 && Time >= 52950) {
-			EnemyPos7.x = 1270;
-			EnemyPos7.y = 600;
+		if (EnemyNum == 49 && Time >= 49550) {
+			EnemyPos7.x = 1280;
+			EnemyPos7.y = 460;
 			EnemyNum++;
 		}
-		if (EnemyNum == 56 && Time >= 52950) {
+		if (EnemyNum == 50 && Time >= 50400) {
 			EnemyPos8.x = 1270;
 			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
-		if (EnemyNum == 57 && Time >= 53800) {
+		if (EnemyNum == 51 && Time >= 50400) {
 			EnemyPos9.x = 1270;
-			EnemyPos9.y = 310;
+			EnemyPos9.y = 460;
 			EnemyNum++;
-		}		
-		if (EnemyNum == 58 && Time >= 54650) {
+		}
+		if (EnemyNum == 52 && Time >= 51250) {
 			EnemyPos.x = 1270;
 			EnemyPos.y = 600;
 			EnemyNum++;
-		}
-		if (EnemyNum == 59 && Time >= 54650) {
-			EnemyPos1.x = 1280;
+		}		
+		if (EnemyNum == 53 && Time >= 52100) {
+			EnemyPos1.x = 1270;
 			EnemyPos1.y = 460;
 			EnemyNum++;
 		}
+		if (EnemyNum == 54 && Time >= 52100) {
+			EnemyPos2.x = 1280;
+			EnemyPos2.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 55 && Time >= 52950) {
+			EnemyPos3.x = 1270;
+			EnemyPos3.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 56 && Time >= 52950) {
+			EnemyPos4.x = 1270;
+			EnemyPos4.y = 460;
+			EnemyNum++;
+		}
+		if (EnemyNum == 57 && Time >= 53800) {
+			EnemyPos5.x = 1270;
+			EnemyPos5.y = 600;
+			EnemyNum++;
+		}		
+		if (EnemyNum == 58 && Time >= 54650) {
+			EnemyPos6.x = 1270;
+			EnemyPos6.y = 600;
+			EnemyNum++;
+		}
+		if (EnemyNum == 59 && Time >= 54650) {
+			EnemyPos7.x = 1280;
+			EnemyPos7.y = 460;
+			EnemyNum++;
+		}
 		if (EnemyNum == 60 && Time >= 55500) {
-	
+			EnemyPos8.x = 1270;
+			EnemyPos8.y = 600;
 			EnemyNum++;
 		}
 		if (EnemyNum == 61 && Time >= 55500) {
-
+			EnemyPos9.x = 1270;
+			EnemyPos9.y = 460;
 			EnemyNum++;
 		}
 		if (EnemyNum == 62 && Time >= 56350) {
-
+			EnemyPos1.x = 1270;
+			EnemyPos1.y = 600;
 			EnemyNum++;
 		}		
 		if (EnemyNum == 63 && Time >= 56350) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
+			EnemyPos2.x = 1270;
+			EnemyPos2.y = 460;
 			EnemyNum++;
 		}
 
