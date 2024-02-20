@@ -1,62 +1,73 @@
 ﻿#include "DxLib.h"
 #include <math.h>
 
-//#include "SceneMgr.h"
 #define IMAGE_SIZE	50
-#define XINPUT_BUTTON_X
 
+// 操作キーの定義
 int Key;
 int Key1;
 int Key2;
 
+// カラーの定義
 int Cr1;
 int Cr2;
 
 int Time;
 
+// プレイヤー関連の定義
 int PlayerX, PlayerY;
 int PlayerH, PlayerW;
 int PlayerGraph;
 
+// エネミーサイズの定義
 int EnemyW, EnemyH;
 
+// テロップの定義
 int Telop1Graph;
 int Telop2Graph;
 
+// 背景の定義
 int BackGraph;
 int TitleGraph;
 int TitleScrollGraph;
 int ChangeSceenGraph;
 int ChangeSceen2Graph;
-
 int BackGlassGraph;
 
+// マニュアル画面の描画定義
 int ManualGraph;
 int Manual2Graph;
 
+// ゲームオーバー画面の描画定義
 int GameOverGraph;
 int GameOverTxtGraph;
 
+// クリア画面の描画定義
 int ClearGraph;
 int GameClearTxtGraph;
 
+// 背景素材の描画定義
 int SkyGraph;
 int MountainGraph;
 int GraundGraph;
 
+// 瞬きの描画定義
 int SlimeAyeGraph;
 int SlimeAye2Graph;
 
+// →の定義
 int ArrowGraph;
 
+// サウンドハンドルの定義
 int BgmHandle;
 int SeHandle;
 int GameOverHandle;
 
+// JumpPowerの定義
 float JumpPower;
 float JumpPower1;
-float JumpPower2;
 
+// シーン
 constexpr int GAMEEND = 0;
 constexpr int TITLESCENE = 1;
 constexpr int MANUALSCENE = 2;
@@ -64,22 +75,23 @@ constexpr int STARTMANUALSCENE = 3;
 constexpr int GAMESCENE = 4;
 constexpr int GAMEOVERSCENE = 5;
 constexpr int GAMECLEARSCENE = 6;
-
-
-bool isInputEnterHold = false;// InputEneter用の変数
-bool isInputUpHold = false;// InputUp用の変数
-bool isInputDownHold = false;// InputDown用の変数
-bool isInputJump1Hold = false;// InputJump1用の変数
-bool isInputJump2Hold = false;// InputJump2用の変数
-bool isInputJump3Hold = false;// InputJump3用の変数
-
 int TitleScene();
 int ManualScene();
 int StartManualScene();
 int GameScene();
 int GameOverScene();
 int GameClearScene();
-bool InputEnter();
+
+
+bool IsInputEnterHold = false;// InputEneter用の変数
+bool IsInputUpHold = false;// InputUp用の変数
+bool IsInputDownHold = false;// InputDown用の変数
+bool IsInputJump1Hold = false;// InputJump1用の変数
+bool IsInputJump2Hold = false;// InputJump2用の変数
+bool IsInputJump3Hold = false;// InputJump3用の変数
+
+// キーやボタンの定義
+bool ConfirmButton();
 bool InputUp();
 bool InputDown();
 bool InputJump1();
@@ -98,10 +110,11 @@ VECTOR EnemyPos7;
 VECTOR EnemyPos8;
 VECTOR EnemyPos9;
 
+// テロップ構造体
 VECTOR TelopPos1;
 VECTOR TelopPos2;
 
-XINPUT_STATE input;
+XINPUT_STATE Input;
 
 void BackScroll(const int t_areaX, const int tD_graph, const int t_winWidth, const int t_winHeight)
 {
@@ -112,17 +125,17 @@ void BackScroll(const int t_areaX, const int tD_graph, const int t_winWidth, con
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	LONGLONG roopStartTime = 0;
-	bool gameRoop = true;
-	int nextScene = TITLESCENE;
+	LONGLONG RoopStartTime = 0;
+	bool GameRoop = true;
+	int NextScene = TITLESCENE;
+
+	// 座標の初期化用
+	float Initialization = 800;
 
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(false);
 	SetWindowText("すらいむすとろぉく");
 
-	//if (KEY_INPUT_ESCAPE) {
-	//	ChangeWindowMode(false);
-	//}
 	// 画面モードの設定
 	SetGraphMode(1280, 720, 32);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
@@ -134,180 +147,190 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// BGM
 	BgmHandle = LoadSoundMem("image/maou_game_village05.mp3");
 
-	EnemyPos.x = 800;
-	EnemyPos.y = 800;
+	// エネミーの初期化
+	EnemyPos.x = Initialization;
+	EnemyPos.y = Initialization;
 
-	EnemyPos1.x = 800;
-	EnemyPos1.y = 800;
+	EnemyPos1.x = Initialization;
+	EnemyPos1.y = Initialization;
 
-	EnemyPos2.x = 800;
-	EnemyPos2.y = 800;
+	EnemyPos2.x = Initialization;
+	EnemyPos2.y = Initialization;
 
-	while (gameRoop) 
+	// メインループ
+	while (GameRoop) 
 	{
-		roopStartTime = GetNowHiPerformanceCount();
+		RoopStartTime = GetNowHiPerformanceCount();
 
 		ClearDrawScreen();
 
-		if (nextScene == TITLESCENE)
+		if (NextScene == TITLESCENE)
 		{
-			nextScene = TitleScene();
+			NextScene = TitleScene();
 		}
-		else if (nextScene == MANUALSCENE)
+		else if (NextScene == MANUALSCENE)
 		{
-			nextScene = ManualScene();
+			NextScene = ManualScene();
 
-			if (nextScene == TITLESCENE)
+			if (NextScene == TITLESCENE)
 			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
+				// エネミーの初期化
+				EnemyPos.x = Initialization;
+				EnemyPos.y = Initialization;
 
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
+				EnemyPos1.x = Initialization;
+				EnemyPos1.y = Initialization;
 
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
+				EnemyPos2.x = Initialization;
+				EnemyPos2.y = Initialization;
 
-				TelopPos1.x = 800;
-				TelopPos1.y = 800;
+				// テロップの初期化
+				TelopPos1.x = Initialization;
+				TelopPos1.y = Initialization;
 
-				TelopPos2.x = 800;
-				TelopPos2.y = 800;
+				TelopPos2.x = Initialization;
+				TelopPos2.y = Initialization;
 
 				StopSoundMem(BgmHandle);
 			}
 		}	
-		else if (nextScene == STARTMANUALSCENE)
+		else if (NextScene == STARTMANUALSCENE)
 		{
-			nextScene = StartManualScene();
+			NextScene = StartManualScene();
 
-			if (nextScene == GAMESCENE)
+			if (NextScene == GAMESCENE)
 			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
+				// エネミーの初期化
+				EnemyPos.x = Initialization;
+				EnemyPos.y = Initialization;
 
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
+				EnemyPos1.x = Initialization;
+				EnemyPos1.y = Initialization;
 
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
+				EnemyPos2.x = Initialization;
+				EnemyPos2.y = Initialization;
 
-				EnemyPos3.x = 800;
-				EnemyPos3.y = 800;
+				EnemyPos3.x = Initialization;
+				EnemyPos3.y = Initialization;
 
-				EnemyPos4.x = 800;
-				EnemyPos4.y = 800;
+				EnemyPos4.x = Initialization;
+				EnemyPos4.y = Initialization;
 
-				EnemyPos5.x = 800;
-				EnemyPos5.y = 800;
+				EnemyPos5.x = Initialization;
+				EnemyPos5.y = Initialization;
 
-				EnemyPos6.x = 800;
-				EnemyPos6.y = 800;
+				EnemyPos6.x = Initialization;
+				EnemyPos6.y = Initialization;
 
-				EnemyPos7.x = 800;
-				EnemyPos7.y = 800;
+				EnemyPos7.x = Initialization;
+				EnemyPos7.y = Initialization;
 
-				EnemyPos8.x = 800;
-				EnemyPos8.y = 800;
+				EnemyPos8.x = Initialization;
+				EnemyPos8.y = Initialization;
 
-				EnemyPos9.x = 800;
-				EnemyPos9.y = 800;
+				EnemyPos9.x = Initialization;
+				EnemyPos9.y = Initialization;
 
-				TelopPos1.x = 800;
-				TelopPos1.y = 800;
+				// テロップの初期化
+				TelopPos1.x = Initialization;
+				TelopPos1.y = Initialization;
 
-				TelopPos2.x = 800;
-				TelopPos2.y = 800;
+				TelopPos2.x = Initialization;
+				TelopPos2.y = Initialization;
 			}
 		}
-		else if (nextScene == GAMESCENE)
+		else if (NextScene == GAMESCENE)
 		{
-			nextScene = GameScene();
+			NextScene = GameScene();
 
-			if (nextScene == GAMEOVERSCENE)
+			if (NextScene == GAMEOVERSCENE)
 			{
 				StopSoundMem(BgmHandle);
 			}
 		}
-		else if (nextScene == GAMEOVERSCENE)
+		else if (NextScene == GAMEOVERSCENE)
 		{
-			nextScene = GameOverScene();
+			NextScene = GameOverScene();
 
-			if (nextScene == TITLESCENE) 
+			if (NextScene == TITLESCENE) 
 			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
+				// エネミーの初期化
+				EnemyPos.x = Initialization;
+				EnemyPos.y = Initialization;
 
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
+				EnemyPos1.x = Initialization;
+				EnemyPos1.y = Initialization;
 
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
+				EnemyPos2.x = Initialization;
+				EnemyPos2.y = Initialization;
 
 				StopSoundMem(GameOverHandle);
 			}
 
-			if (nextScene == GAMESCENE)
+			if (NextScene == GAMESCENE)
 			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
+				// エネミーの初期化
+				EnemyPos.x = Initialization;
+				EnemyPos.y = Initialization;
 
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
-				
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;	
-				
-				EnemyPos3.x = 800;
-				EnemyPos3.y = 800;
+				EnemyPos1.x = Initialization;
+				EnemyPos1.y = Initialization;
 
-				EnemyPos4.x = 800;
-				EnemyPos4.y = 800;
+				EnemyPos2.x = Initialization;
+				EnemyPos2.y = Initialization;
 
-				EnemyPos5.x = 800;
-				EnemyPos5.y = 800;
+				EnemyPos3.x = Initialization;
+				EnemyPos3.y = Initialization;
 
-				EnemyPos6.x = 800;
-				EnemyPos6.y = 800;
+				EnemyPos4.x = Initialization;
+				EnemyPos4.y = Initialization;
 
-				EnemyPos7.x = 800;
-				EnemyPos7.y = 800;
+				EnemyPos5.x = Initialization;
+				EnemyPos5.y = Initialization;
 
-				EnemyPos8.x = 800;
-				EnemyPos8.y = 800;
+				EnemyPos6.x = Initialization;
+				EnemyPos6.y = Initialization;
 
-				EnemyPos9.x = 800;
-				EnemyPos9.y = 800;
+				EnemyPos7.x = Initialization;
+				EnemyPos7.y = Initialization;
 
-				TelopPos1.x = 800;
-				TelopPos1.y = 800;
+				EnemyPos8.x = Initialization;
+				EnemyPos8.y = Initialization;
 
-				TelopPos2.x = 800;
-				TelopPos2.y = 800;
+				EnemyPos9.x = Initialization;
+				EnemyPos9.y = Initialization;
+
+				// テロップの初期化
+				TelopPos1.x = Initialization;
+				TelopPos1.y = Initialization;
+
+				TelopPos2.x = Initialization;
+				TelopPos2.y = Initialization;
 
 				StopSoundMem(GameOverHandle);
 				// BGMをメモリにロード
 				PlaySoundMem(BgmHandle, DX_PLAYTYPE_LOOP);
 			}
 		}
-		else if (nextScene == GAMECLEARSCENE)
+		else if (NextScene == GAMECLEARSCENE)
 		{
-			nextScene = GameClearScene();
-			if (nextScene == TITLESCENE) 
+			NextScene = GameClearScene();
+			if (NextScene == TITLESCENE) 
 			{
-				EnemyPos.x = 800;
-				EnemyPos.y = 800;
+				// エネミーの初期化
+				EnemyPos.x = Initialization;
+				EnemyPos.y = Initialization;
 
-				EnemyPos1.x = 800;
-				EnemyPos1.y = 800;
+				EnemyPos1.x = Initialization;
+				EnemyPos1.y = Initialization;
 
-				EnemyPos2.x = 800;
-				EnemyPos2.y = 800;
+				EnemyPos2.x = Initialization;
+				EnemyPos2.y = Initialization;
 
 				StopSoundMem(BgmHandle);
 			}
 		}
-		else if (nextScene == GAMEEND)
+		else if (NextScene == GAMEEND)
 		{
 			break;
 		}
@@ -328,7 +351,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		// FPS60に固定する
-		while (GetNowHiPerformanceCount() - roopStartTime < 16667)
+		while (GetNowHiPerformanceCount() - RoopStartTime < 16667)
 		{
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
@@ -339,16 +362,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;				// ソフトの終了 
 }
 
+// タイトルシーン
 int TitleScene()
 {
 	/*変数*/
-	bool gameRoop = true;
-	int nextScene = TITLESCENE;
-	int arrowPosY = 0;
-	int countFrame = 0;
-	int areaX = 0;
-	int speed = 3;
+	bool GameRoop = true;
+	int NextScene = TITLESCENE;
+	int ArrowPosY = 0;
+	int CountFrame = 0;
+	int AreaX = 0;
+	int Speed = 3;
 	int EnemyGraph;
+	int MoovSpeed = 10;
 
 	// グラフィック『Title.png』をメモリにロード
 	TitleScrollGraph = LoadGraph("image/title (2).png");
@@ -382,75 +407,75 @@ int TitleScene()
 	PlayerY = 600;
 
 	/*ゲーム処理*/
-	while (gameRoop)
+	while (GameRoop)
 	{
 		/*計算処理*/
 		//Input Down.
 		if (InputDown())
 		{
-			if (arrowPosY == 0)
+			if (ArrowPosY == 0)
 			{
-				arrowPosY = 60;
+				ArrowPosY = 60;
 			}
-			else if (arrowPosY == 60 , arrowPosY > 120)
+			else if (ArrowPosY == 60 && ArrowPosY > 120)
 			{
-				arrowPosY = 0;
+				ArrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 120;
+				ArrowPosY = 120;
 			}
 		}
 		//Input Up.
 		if (InputUp())
 		{
-			if (arrowPosY == 120)
+			if (ArrowPosY == 120)
 			{
-				arrowPosY = 60;
+				ArrowPosY = 60;
 			}
-			else if (arrowPosY == 60, arrowPosY < 120)
+			else if (ArrowPosY == 60 && ArrowPosY < 120)
 			{
-				arrowPosY = 0;
+				ArrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 120;
+				ArrowPosY = 120;
 			}
 		}
 
 
 		/*タイマ更新*/
-		countFrame++;
-		if (countFrame > 380) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+		CountFrame++;
+		if (CountFrame > 380) { CountFrame = 0; }//一定以上数が増えたら初期化(数は適当)
 
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		if (countFrame == 120)
+		if (CountFrame == 120)
 		{
 			EnemyPos.x = 1280;
 			EnemyPos.y = 600;
 		}
-		if (countFrame == 280) 
+		if (CountFrame == 280) 
 		{
 			EnemyPos1.x = 1270;
 			EnemyPos1.y = 460;
 		}
-		if (countFrame == 280) 
+		if (CountFrame == 280) 
 		{
 			EnemyPos2.x = 1270;
 			EnemyPos2.y = 600;
 		}
 
-
-		EnemyPos.x -= 10;
-		EnemyPos1.x -= 10;
-		EnemyPos2.x -= 10;
+		// エネミーの移動速度
+		EnemyPos.x -= MoovSpeed;
+		EnemyPos1.x -= MoovSpeed;
+		EnemyPos2.x -= MoovSpeed;
 
 
 		// 背景スクロールの描画
-		BackScroll(areaX, TitleScrollGraph, 1280, 720);
+		BackScroll(AreaX, TitleScrollGraph, 1280, 720);
 		const float SinSpeed = 0.1f;
 		const float AnimationSize = 8.0f;
 		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
@@ -469,10 +494,10 @@ int TitleScene()
 		DrawGraph(0, 0, ChangeSceen2Graph, true);
 
 
-		areaX += speed;
-		if (areaX > 1280)
+		AreaX += Speed;
+		if (AreaX > 1280)
 		{
-			areaX = 0;
+			AreaX = 0;
 		}
 
 		// 落下処理
@@ -495,13 +520,14 @@ int TitleScene()
 			JumpPower = 0;
 			JumpPower1 = 0;
 		}
-		if (countFrame == 220)JumpPower = 24;
-		if (countFrame == 375)JumpPower1 = 29;
+		// タイトルデモのジャンプタイミング
+		if (CountFrame == 220)JumpPower = 24;
+		if (CountFrame == 375)JumpPower1 = 29;
 
 		//矢印表示(点滅させる)
-		if ((countFrame % 60) < 32)
+		if ((CountFrame % 60) < 32)
 		{
-			DrawGraph(0, arrowPosY, ArrowGraph, true);
+			DrawGraph(0, ArrowPosY, ArrowGraph, true);
 		}
 
 		//裏画面を表へ
@@ -509,13 +535,13 @@ int TitleScene()
 
 		/*シーン遷移処理*/
 		//エンターでシーン変更
-		if (InputEnter())
+		if (ConfirmButton())
 		{
-			if (arrowPosY == 0)
+			if (ArrowPosY == 0)
 			{
 				return STARTMANUALSCENE;
 			}
-			else if (arrowPosY == 60)
+			else if (ArrowPosY == 60)
 			{
 				return MANUALSCENE;
 			}
@@ -535,17 +561,21 @@ int TitleScene()
 	return TITLESCENE;
 }
 
+// マニュアルシーン
 int ManualScene()
 {
 	int GameRoop = true;
-	int countFrame = 0;
-	int nextScene = MANUALSCENE;
-	int areaX = 0;
-	int speed = 2;
+	int CountFrame = 0;
+	int NextScene = MANUALSCENE;
+	int AreaX = 0;
+	int Speed = 2;
 	
+	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
 	GetGraphSize(PlayerGraph, &PlayerW, &PlayerH);
+	// グラフィック『back.png』をメモリにロード
 	BackGraph = LoadGraph("image/back.png");
+	// グラフィック『manual.png』をメモリにロード
 	ManualGraph = LoadGraph("image/manual.png");
 
 	// キャラクターの初期データをセット
@@ -555,19 +585,19 @@ int ManualScene()
 	while (GameRoop)
 	{
 		/*タイマ更新*/
-		countFrame++;
-		if (countFrame > 120) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+		CountFrame++;
+		if (CountFrame > 120) { CountFrame = 0; }//一定以上数が増えたら初期化(数は適当)
 
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		BackScroll(areaX, BackGraph, 1280, 720);
+		BackScroll(AreaX, BackGraph, 1280, 720);
 
-		areaX += speed;
-		if (areaX > 1280)
+		AreaX += Speed;
+		if (AreaX > 1280)
 		{
-			areaX = 0;
+			AreaX = 0;
 		}
 
 		// 落下処理
@@ -587,11 +617,12 @@ int ManualScene()
 			PlayerY = 600;
 			JumpPower = 0;
 		}
-		if (countFrame == 120)JumpPower = 20;
+		if (CountFrame == 120)JumpPower = 20;
 
+		// スライムが弾んで見えるモーション実装
 		const float SinSpeed = 0.1f;
 		const float AnimationSize = 5.0f;
-		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
+		static float AnimationHeight = 0.0f;	// スライムが弾んでいるようにアニメーションしているよう見せるための高さ値
 		static float SinCount = 0;
 		SinCount += SinSpeed;
 		AnimationHeight = sinf(SinCount) * AnimationSize;		// 決まった数値だけ高さを増やしてあげる
@@ -605,7 +636,7 @@ int ManualScene()
 	
 		/*シーン遷移処理*/
 		//エンターでシーン変更
-		if (InputEnter())
+		if (ConfirmButton())
 		{
 			return TITLESCENE;
 		}
@@ -613,17 +644,21 @@ int ManualScene()
 		return TITLESCENE;
 }
 
+// スタートマニュアルシーン
 int StartManualScene()
 {
 	int GameRoop = true;
-	int countFrame = 0;
-	int nextScene = STARTMANUALSCENE;
-	int areaX = 0;
-	int speed = 2;
-	
+	int CountFrame = 0;
+	int NextScene = STARTMANUALSCENE;
+	int AreaX = 0;
+	int Speed = 2;
+
+	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
 	GetGraphSize(PlayerGraph, &PlayerW, &PlayerH);
+	// グラフィック『back.png』をメモリにロード
 	BackGraph = LoadGraph("image/back.png");
+	// グラフィック『manual.png』をメモリにロード
 	ManualGraph = LoadGraph("image/manual.png");
 
 	// キャラクターの初期データをセット
@@ -633,19 +668,19 @@ int StartManualScene()
 	while (GameRoop)
 	{
 		/*タイマ更新*/
-		countFrame++;
-		if (countFrame > 120) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+		CountFrame++;
+		if (CountFrame > 120) { CountFrame = 0; }//一定以上数が増えたら初期化(数は適当)
 
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		BackScroll(areaX, BackGraph, 1280, 720);
+		BackScroll(AreaX, BackGraph, 1280, 720);
 
-		areaX += speed;
-		if (areaX > 1280)
+		AreaX += Speed;
+		if (AreaX > 1280)
 		{
-			areaX = 0;
+			AreaX = 0;
 		}
 
 		// 落下処理
@@ -665,11 +700,13 @@ int StartManualScene()
 			PlayerY = 600;
 			JumpPower = 0;
 		}
-		if (countFrame == 120)JumpPower = 20;
+		if (CountFrame == 120)JumpPower = 20;
 
+
+		// スライムが弾んで見えるモーション
 		const float SinSpeed = 0.1f;
 		const float AnimationSize = 5.0f;
-		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
+		static float AnimationHeight = 0.0f;	// スライムが弾んでいるようにアニメーションしているよう見せるための高さ値
 		static float SinCount = 0;
 		SinCount += SinSpeed;
 		AnimationHeight = sinf(SinCount) * AnimationSize;		// 決まった数値だけ高さを増やしてあげる
@@ -683,7 +720,7 @@ int StartManualScene()
 	
 		/*シーン遷移処理*/
 		//エンターでシーン変更
-		if (InputEnter())
+		if (ConfirmButton())
 		{
 			return GAMESCENE;
 		}
@@ -691,18 +728,22 @@ int StartManualScene()
 		return GAMESCENE;
 }
 
+// ゲームシーン
 int GameScene()
 {
 	int EnemyGraph;
-	bool gameRoop = true;
-	int phase = 0;
+	bool GameRoop = true;
+	int Phase = 0;
 	int StartTime;
 	Time = 0;
-	int areaX = 0;
-	int speed = 3;
+	int AreaX = 0;
+	int Speed = 3;
 	unsigned int Cr1;
 	unsigned int Cr2;
-	int nextScene = GAMESCENE;
+	int NextScene = GAMESCENE;
+
+	int MoovSpeed = 10;
+	int ClarTime = 60000;
 
 	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
@@ -728,7 +769,7 @@ int GameScene()
 	int JumpNum = 0;
 
 	// ゲームループ
-	while (GetNowCount() - StartTime < 60000)
+	while (GetNowCount() - StartTime < ClarTime)
 	{
 
 		// 描画を行う前に画面をクリアする
@@ -737,14 +778,16 @@ int GameScene()
 		// このフレームの開始時刻を覚えておく
 		LONGLONG start = GetNowHiPerformanceCount();
 
-		BackScroll(areaX, BackGraph, 1280, 720);
+		// 背景スクロールの描画
+		BackScroll(AreaX, BackGraph, 1280, 720);
 
-		areaX += speed;
-		if (areaX > 1280)
+		AreaX += Speed;
+		if (AreaX > 1280)
 		{
-			areaX = 0;
+			AreaX = 0;
 		}
 
+		// 経過時間の小窓の描画
 		DrawGraph(15, -10, BackGlassGraph, true);
 
 		// 白の色コードを保存
@@ -753,335 +796,338 @@ int GameScene()
 		Time = GetNowCount() - StartTime;
 
 		SetFontSize(34);
-		
+		// 経過時間の描画
 		ChangeFont("HG創英角ﾎﾟｯﾌﾟ体");
-
 		ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
-
 		DrawFormatString(53, 23, Cr2, "経過時間");
 		DrawFormatString(63, 63, Cr2, "%d秒", Time / 1000);
 		DrawFormatString(50, 20, Cr1, "経過時間");
 		DrawFormatString(60, 60, Cr1, "%d秒", Time / 1000);
 
-		// エネミーの出現処理
-		if (EnemyNum == 0 && Time >= 0) {
-			EnemyPos.x = 1280;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 1 && Time >= 3000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 2 && Time >= 6000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 3 && Time >= 8000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 4 && Time >= 10000) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 5 && Time >= 12000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 6 && Time >= 12000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 7 && Time >= 14000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 8 && Time >= 14000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 9 && Time >= 16000) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 600;
-			EnemyNum++;
-		}	
-		if (EnemyNum == 10 && Time >= 16000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 11 && Time >= 18000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}	
-		if (EnemyNum == 12 && Time >= 18000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 13 && Time >= 20000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 14 && Time >= 20000) {
-			EnemyPos4.x = 1280;
-			EnemyPos4.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 15 && Time >= 22000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 16 && Time >= 24000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 17 && Time >= 24000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 18 && Time >= 26000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 19 && Time >= 28000) {
-			EnemyPos4.x = 1280;
-			EnemyPos4.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 20 && Time >= 28000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 21 && Time >= 30000) {
-			TelopPos1.x = 690;
-			TelopPos1.y = 0;
-			EnemyNum++;
-		}
-		if (EnemyNum == 22 && Time >= 32000) {
 		
-			EnemyNum++;
+		// エネミーの出現処理
+		{
+			if (EnemyNum == 0 && Time >= 0) {
+				EnemyPos.x = 1280;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 1 && Time >= 3000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 2 && Time >= 6000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 3 && Time >= 8000) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 4 && Time >= 10000) {
+				EnemyPos4.x = 1270;
+				EnemyPos4.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 5 && Time >= 12000) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 6 && Time >= 12000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 7 && Time >= 14000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 8 && Time >= 14000) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 9 && Time >= 16000) {
+				EnemyPos4.x = 1270;
+				EnemyPos4.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 10 && Time >= 16000) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 11 && Time >= 18000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 12 && Time >= 18000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 13 && Time >= 20000) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 14 && Time >= 20000) {
+				EnemyPos4.x = 1280;
+				EnemyPos4.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 15 && Time >= 22000) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 16 && Time >= 24000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 17 && Time >= 24000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 18 && Time >= 26000) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 19 && Time >= 28000) {
+				EnemyPos4.x = 1280;
+				EnemyPos4.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 20 && Time >= 28000) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 21 && Time >= 30000) {
+				TelopPos1.x = 690;
+				TelopPos1.y = 0;
+				EnemyNum++;
+			}
+			if (EnemyNum == 22 && Time >= 33000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 23 && Time >= 33000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 24 && Time >= 33000) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 25 && Time >= 34000) {
+				EnemyPos4.x = 1280;
+				EnemyPos4.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 26 && Time >= 34000) {
+				EnemyPos5.x = 1270;
+				EnemyPos5.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 27 && Time >= 35000) {
+				EnemyPos6.x = 1270;
+				EnemyPos6.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 28 && Time >= 36000) {
+				EnemyPos7.x = 1270;
+				EnemyPos7.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 29 && Time >= 36000) {
+				EnemyPos8.x = 1270;
+				EnemyPos8.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 30 && Time >= 37000) {
+				EnemyPos9.x = 1280;
+				EnemyPos9.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 31 && Time >= 37000) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 32 && Time >= 38000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 33 && Time >= 39000) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 34 && Time >= 39000) {
+				EnemyPos3.x = 1280;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 35 && Time >= 41000) {
+				EnemyPos4.x = 1270;
+				EnemyPos4.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 36 && Time >= 41000) {
+				EnemyPos5.x = 1270;
+				EnemyPos5.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 37 && Time >= 42000) {
+				EnemyPos6.x = 1270;
+				EnemyPos6.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 38 && Time >= 42000) {
+				EnemyPos7.x = 1270;
+				EnemyPos7.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 39 && Time >= 43000) {
+				EnemyPos8.x = 1280;
+				EnemyPos8.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 40 && Time >= 43000) {
+				EnemyPos9.x = 1280;
+				EnemyPos9.y = 310;
+				EnemyNum++;
+			}
+			if (EnemyNum == 41 && Time >= 45000) {
+				TelopPos2.x = 690;
+				TelopPos2.y = 0;
+				EnemyNum++;
+			}
+			if (EnemyNum == 42 && Time >= 45000) {
+				TelopPos2.x = 690;
+				TelopPos2.y = 0;
+				EnemyNum++;
+			}
+			if (EnemyNum == 43 && Time >= 47000) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 44 && Time >= 47000) {
+				EnemyPos2.x = 1280;
+				EnemyPos2.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 45 && Time >= 47850) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 46 && Time >= 47850) {
+				EnemyPos4.x = 1270;
+				EnemyPos4.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 47 && Time >= 48700) {
+				EnemyPos5.x = 1270;
+				EnemyPos5.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 48 && Time >= 49550) {
+				EnemyPos6.x = 1270;
+				EnemyPos6.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 49 && Time >= 49550) {
+				EnemyPos7.x = 1280;
+				EnemyPos7.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 50 && Time >= 50400) {
+				EnemyPos8.x = 1270;
+				EnemyPos8.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 51 && Time >= 50400) {
+				EnemyPos9.x = 1270;
+				EnemyPos9.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 52 && Time >= 51250) {
+				EnemyPos.x = 1270;
+				EnemyPos.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 53 && Time >= 52100) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 54 && Time >= 52100) {
+				EnemyPos2.x = 1280;
+				EnemyPos2.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 55 && Time >= 52950) {
+				EnemyPos3.x = 1270;
+				EnemyPos3.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 56 && Time >= 52950) {
+				EnemyPos4.x = 1270;
+				EnemyPos4.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 57 && Time >= 53800) {
+				EnemyPos5.x = 1270;
+				EnemyPos5.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 58 && Time >= 54650) {
+				EnemyPos6.x = 1270;
+				EnemyPos6.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 59 && Time >= 54650) {
+				EnemyPos7.x = 1280;
+				EnemyPos7.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 60 && Time >= 55500) {
+				EnemyPos8.x = 1270;
+				EnemyPos8.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 61 && Time >= 55500) {
+				EnemyPos9.x = 1270;
+				EnemyPos9.y = 460;
+				EnemyNum++;
+			}
+			if (EnemyNum == 62 && Time >= 56350) {
+				EnemyPos1.x = 1270;
+				EnemyPos1.y = 600;
+				EnemyNum++;
+			}
+			if (EnemyNum == 63 && Time >= 56350) {
+				EnemyPos2.x = 1270;
+				EnemyPos2.y = 460;
+				EnemyNum++;
+			}
 		}
-		if (EnemyNum == 23 && Time >= 33000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 24 && Time >= 33000) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 25 && Time >= 34000) {
-			EnemyPos4.x = 1280;
-			EnemyPos4.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 26 && Time >= 34000) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 27 && Time >= 35000) {
-			EnemyPos6.x = 1270;
-			EnemyPos6.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 28 && Time >= 36000) {
-			EnemyPos7.x = 1270;
-			EnemyPos7.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 29 && Time >= 36000) {
-			EnemyPos8.x = 1270;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 30 && Time >= 37000) {
-			EnemyPos9.x = 1280;
-			EnemyPos9.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 31 && Time >= 37000) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 32 && Time >= 38000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 33 && Time >= 39000) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 34 && Time >= 39000) {
-			EnemyPos3.x = 1280;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 35 && Time >= 41000) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 36 && Time >= 41000) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 37 && Time >= 42000) {
-			EnemyPos6.x = 1270;
-			EnemyPos6.y = 600;
-			EnemyNum++;
-		}	
-		if (EnemyNum == 38 && Time >= 42000) {
-			EnemyPos7.x = 1270;
-			EnemyPos7.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 39 && Time >= 43000) {
-			EnemyPos8.x = 1280;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 40 && Time >= 43000) {
-			EnemyPos9.x = 1280;
-			EnemyPos9.y = 310;
-			EnemyNum++;
-		}
-		if (EnemyNum == 41 && Time >= 44000) {
-			EnemyNum++;
-		}
-		if (EnemyNum == 42 && Time >= 45000) {
-			TelopPos2.x = 690;
-			TelopPos2.y = 0;
-			EnemyNum++;
-		}		
-		if (EnemyNum == 43 && Time >= 47000) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 44 && Time >= 47000) {
-			EnemyPos2.x = 1280;
-			EnemyPos2.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 45 && Time >= 47850) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 46 && Time >= 47850) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 47 && Time >= 48700) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
-			EnemyNum++;
-		}	
-		if (EnemyNum == 48 && Time >= 49550) {
-			EnemyPos6.x = 1270;
-			EnemyPos6.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 49 && Time >= 49550) {
-			EnemyPos7.x = 1280;
-			EnemyPos7.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 50 && Time >= 50400) {
-			EnemyPos8.x = 1270;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 51 && Time >= 50400) {
-			EnemyPos9.x = 1270;
-			EnemyPos9.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 52 && Time >= 51250) {
-			EnemyPos.x = 1270;
-			EnemyPos.y = 600;
-			EnemyNum++;
-		}		
-		if (EnemyNum == 53 && Time >= 52100) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 54 && Time >= 52100) {
-			EnemyPos2.x = 1280;
-			EnemyPos2.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 55 && Time >= 52950) {
-			EnemyPos3.x = 1270;
-			EnemyPos3.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 56 && Time >= 52950) {
-			EnemyPos4.x = 1270;
-			EnemyPos4.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 57 && Time >= 53800) {
-			EnemyPos5.x = 1270;
-			EnemyPos5.y = 600;
-			EnemyNum++;
-		}		
-		if (EnemyNum == 58 && Time >= 54650) {
-			EnemyPos6.x = 1270;
-			EnemyPos6.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 59 && Time >= 54650) {
-			EnemyPos7.x = 1280;
-			EnemyPos7.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 60 && Time >= 55500) {
-			EnemyPos8.x = 1270;
-			EnemyPos8.y = 600;
-			EnemyNum++;
-		}
-		if (EnemyNum == 61 && Time >= 55500) {
-			EnemyPos9.x = 1270;
-			EnemyPos9.y = 460;
-			EnemyNum++;
-		}
-		if (EnemyNum == 62 && Time >= 56350) {
-			EnemyPos1.x = 1270;
-			EnemyPos1.y = 600;
-			EnemyNum++;
-		}		
-		if (EnemyNum == 63 && Time >= 56350) {
-			EnemyPos2.x = 1270;
-			EnemyPos2.y = 460;
-			EnemyNum++;
-		}
-
 		// 落下処理
 		PlayerY -= JumpPower;
 		PlayerY -= JumpPower1;
@@ -1091,7 +1137,6 @@ int GameScene()
 		JumpPower -= 0.8f;
 		JumpPower1 -= 0.8f;
 	
-
 		// プレイヤーが画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 		if (PlayerY > 720 - 64) PlayerY = 720 - 64;
 		// プレイヤーが画面天井からはみ出そうになっていたら画面内の座標に戻してあげる
@@ -1106,6 +1151,7 @@ int GameScene()
 			JumpNum = 0;
 		}
 
+		// プレイヤーのジャンプ処理
 		if (PlayerY == 600)
 		{
 			if (InputJump1())
@@ -1138,34 +1184,39 @@ int GameScene()
 			}
 		}
 
-		TelopPos1.x -= 10;
-		TelopPos2.x -= 10;
+		// テロップの移動処理
+		TelopPos1.x -= MoovSpeed;
+		TelopPos2.x -= MoovSpeed;
 
 		// エネミーの移動処理
 		{
-			EnemyPos.x -= 10;
-			EnemyPos1.x -= 10;
-			EnemyPos2.x -= 10;
-			EnemyPos3.x -= 10;
-			EnemyPos4.x -= 10;
-			EnemyPos5.x -= 10;
-			EnemyPos6.x -= 10;
-			EnemyPos7.x -= 10;
-			EnemyPos8.x -= 10;
-			EnemyPos9.x -= 10;
+			EnemyPos.x -= MoovSpeed;
+			EnemyPos1.x -= MoovSpeed;
+			EnemyPos2.x -= MoovSpeed;
+			EnemyPos3.x -= MoovSpeed;
+			EnemyPos4.x -= MoovSpeed;
+			EnemyPos5.x -= MoovSpeed;
+			EnemyPos6.x -= MoovSpeed;
+			EnemyPos7.x -= MoovSpeed;
+			EnemyPos8.x -= MoovSpeed;
+			EnemyPos9.x -= MoovSpeed;
 		}
+
+		// テロップを描画する
 		DrawGraph(TelopPos1.x, TelopPos1.y, Telop1Graph, true);
 		DrawGraph(TelopPos2.x, TelopPos2.y, Telop2Graph, true);
+		
+		// スライムの弾んでるモーション
 		const float SinSpeed = 0.1f;
 		const float AnimationSize = 8.0f;
-		static float AnimationHeight = 0.0f;	// プレイヤーが弾んでいるようにアニメーションしているよう見せるための高さ値
+		static float AnimationHeight = 0.0f;	// スライムが弾んでいるようにアニメーションしているよう見せるための高さ値
 		static float SinCount = 0;
 		SinCount += SinSpeed;
 		AnimationHeight = sinf(SinCount) * AnimationSize;		// 決まった数値だけ高さを増やしてあげる
+		
 		// プレイヤーを描画する
-		{
-			DrawExtendGraph(PlayerX, PlayerY - AnimationHeight, PlayerX + PlayerW, PlayerY + PlayerH, PlayerGraph, TRUE);
-		}
+		DrawExtendGraph(PlayerX, PlayerY - AnimationHeight, PlayerX + PlayerW, PlayerY + PlayerH, PlayerGraph, TRUE);
+		
 		// エネミーを描画する
 		{
 			DrawExtendGraph(EnemyPos.x, EnemyPos.y - AnimationHeight, EnemyPos.x + EnemyW, EnemyPos.y + EnemyH, EnemyGraph, TRUE);
@@ -1255,87 +1306,91 @@ int GameScene()
 	return GAMECLEARSCENE;
 }
 
+// ゲームオーバーシーン
 int GameOverScene()
 {
-	int nextScene = GAMEOVERSCENE;
-	int arrowPosY = 0;
-	int countFrame = 0;
-	bool gameRoop = true;
+	int NextScene = GAMEOVERSCENE;
+	int ArrowPosY = 0;
+	int CountFrame = 0;
+	bool GameRoop = true;
 
+	// グラフィック『gameOver.png』をメモリにロード
 	GameOverGraph = LoadGraph("image/gameOver.png");
+	// グラフィック『GameOverTxt.png』をメモリにロード
 	GameOverTxtGraph = LoadGraph("image/GameOverTxt.png");
+	// グラフィック『arrow3.png』をメモリにロード
 	ArrowGraph = LoadGraph("image/arrow3.png");
+	// グラフィック『GameOver.mp3』をメモリにロード
 	GameOverHandle = LoadSoundMem("image/GameOver.mp3");
-
+	
 	PlaySoundMem(GameOverHandle, DX_PLAYTYPE_LOOP);
 
-	while (gameRoop)
+	while (GameRoop)
 	{
 		/*計算処理*/
 		//Input Down.
 		if (InputDown())
 		{
-			if (arrowPosY == 0)
+			if (ArrowPosY == 0)
 			{
-				arrowPosY = 80;
+				ArrowPosY = 80;
 			}
 			else
 			{
-				arrowPosY = 0;
+				ArrowPosY = 0;
 			}
 		}
 		//Input Up.
 		if (InputUp())
 		{
-			if (arrowPosY == 80)
+			if (ArrowPosY == 80)
 			{
-				arrowPosY = 0;
+				ArrowPosY = 0;
 			}
 			else
 			{
-				arrowPosY = 80;
+				ArrowPosY = 80;
 			}
 		}
 
 		/*タイマ更新*/
-		countFrame++;
-		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+		CountFrame++;
+		if (CountFrame > 80000) { CountFrame = 0; }//一定以上数が増えたら初期化(数は適当)
 
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
 
+		// ゲームオーバー画面の描画
 		DrawGraph(0, 0, GameOverGraph, true);
-
 		DrawGraph(0, 0, GameOverTxtGraph, true);
 
-		if ((countFrame % 60) < 32)
+		// →の描画
+		if ((CountFrame % 60) < 32)
 		{
-			DrawGraph(0, arrowPosY, ArrowGraph, true);
+			DrawGraph(0, ArrowPosY, ArrowGraph, true);
 		}
 
-		Cr1 = GetColor(255, 200, 20);
-		Cr2 = GetColor(0, 0, 0);
-
-
-		SetFontSize(68);
-
-		ChangeFont("HG創英角ﾎﾟｯﾌﾟ体");
-
-		ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
-
-		DrawFormatString(105, 305, Cr2, "経過時間");
-		DrawFormatString(185, 385, Cr2, "%d秒", Time / 1000);
-		DrawFormatString(100, 300, Cr1, "経過時間");
-		DrawFormatString(180, 380, Cr1, "%d秒", Time / 1000);
+		// ゲームオーバー時の経過時間の表示
+		{
+			Cr1 = GetColor(255, 200, 20);
+			Cr2 = GetColor(0, 0, 0);
+			SetFontSize(68);
+			ChangeFont("HG創英角ﾎﾟｯﾌﾟ体");
+			ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
+			DrawFormatString(105, 305, Cr2, "経過時間");
+			DrawFormatString(185, 385, Cr2, "%d秒", Time / 1000);
+			DrawFormatString(100, 300, Cr1, "経過時間");
+			DrawFormatString(180, 380, Cr1, "%d秒", Time / 1000);
+		}
 
 		ScreenFlip();
 
 		/*シーン遷移処理*/
 		//エンターでシーン変更
-		if (InputEnter())
+		if (ConfirmButton())
 		{
-			if (arrowPosY == 0)
+			if (ArrowPosY == 0)
 			{
 				return GAMESCENE;
 			}
@@ -1347,75 +1402,58 @@ int GameOverScene()
 	}
 }
 
+// ゲームクリアシーン
 int GameClearScene()
 {
-	int nextScene = GAMECLEARSCENE;
-	int arrowPosY = 10;
-	int countFrame = 0;
-	bool gameRoop = true;
-	int SlimeAyeW, SlimeAyeH;
-	int areaX = 0;
-	int speed = 1;
+	int NextScene = GAMECLEARSCENE;
+	int ArrowPosY = 10;
+	int CountFrame = 0;
+	bool GameRoop = true;
+	int AreaX = 0;
+	int Speed = 1;
 
+	// グラフィック『clear.png』をメモリにロード
 	ClearGraph = LoadGraph("image/clear.png");
+	// グラフィック『GameClearTxt.png』をメモリにロード
 	GameClearTxtGraph = LoadGraph("image/GameClearTxt.png");
+	// グラフィック『arrow1.png』をメモリにロード
 	ArrowGraph = LoadGraph("image/arrow1.png");
+	// グラフィック『SlimeAye.png』をメモリにロード
 	SlimeAyeGraph = LoadGraph("image/SlimeAye.png");
+	// グラフィック『SlimeAye2.png』をメモリにロード
 	SlimeAye2Graph = LoadGraph("image/SlimeAye2.png");
+	// グラフィック『Sky.png』をメモリにロード
 	SkyGraph = LoadGraph("image/Sky.png");
+	// グラフィック『mountain.png』をメモリにロード
 	MountainGraph = LoadGraph("image/mountain.png");
+	// グラフィック『Graund.png』をメモリにロード
 	GraundGraph = LoadGraph("image/Graund.png");
 
-	while (gameRoop)
+	while (GameRoop)
 	{
-		///*計算処理*/
-		////Input Down.
-		//if (InputDown())
-		//{
-		//	if (arrowPosY == -120)
-		//	{
-		//		arrowPosY = -30;
-		//	}
-		//	else
-		//	{
-		//		arrowPosY = -120;
-		//	}
-		//}
-		////Input Up.
-		//if (InputUp())
-		//{
-		//	if (arrowPosY == -30)
-		//	{
-		//		arrowPosY = -120;
-		//	}
-		//	else
-		//	{
-		//		arrowPosY = -30;
-		//	}
-		//}
-
 		/*タイマ更新*/
-		countFrame++;
-		if (countFrame > 80000) { countFrame = 0; }//一定以上数が増えたら初期化(数は適当)
+		CountFrame++;
+		if (CountFrame > 80000) { CountFrame = 0; }//一定以上数が増えたら初期化(数は適当)
 
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		BackScroll(areaX, SkyGraph, 1280, 720);
-
-		areaX += speed;
-		if (areaX > 1280)
+		// 背景の描画
+		BackScroll(AreaX, SkyGraph, 1280, 720);
+		AreaX += Speed;
+		if (AreaX > 1280)
 		{
-			areaX = 0;
+			AreaX = 0;
 		}
 	
+		// ゲームクリア画面の描画
 		DrawGraph(0, 0, MountainGraph, true);
 		DrawGraph(0, 0, GraundGraph, true);
-
 		DrawGraph(0, 0, ClearGraph, true);
 
-		if ((countFrame % 100) < 97)
+		// スライムの瞬きの描画
+		if ((CountFrame % 100) < 97)
 		{
 			DrawGraph(0, 0, SlimeAyeGraph, true);
 		}
@@ -1423,23 +1461,21 @@ int GameClearScene()
 		{
 			DrawGraph(0, 0, SlimeAye2Graph, true);
 		}
-		
+		// クリア画面のテキスト描画
 		DrawGraph(0, 0, GameClearTxtGraph, true);
 
-		if ((countFrame % 60) < 32)
+		if ((CountFrame % 60) < 32)
 		{
-			DrawGraph(-10, arrowPosY, ArrowGraph, true);
+			DrawGraph(-10, ArrowPosY, ArrowGraph, true);
 		}
-		
-
 
 		ScreenFlip();
 
 		/*シーン遷移処理*/
 		//エンターでシーン変更
-		if (InputEnter())
+		if (ConfirmButton())
 		{
-			if (arrowPosY == 10)
+			if (ArrowPosY == 10)
 			{
 				return TITLESCENE;
 			}
@@ -1449,57 +1485,58 @@ int GameClearScene()
 	return TITLESCENE;
 }
 
-bool InputEnter()
+// 確定ボタンが押されたかどうかを判定する関数
+bool ConfirmButton()
 {
 	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key == (PAD_INPUT_1) && !isInputEnterHold)
+	if (Key == (PAD_INPUT_1) && !IsInputEnterHold)
 	{
-		isInputEnterHold = true;
+		IsInputEnterHold = true;
 		return true;
 	}
 	else if (!Key)
 	{
-		isInputEnterHold = false;
+		IsInputEnterHold = false;
 	}
 
 	return false;
 }
 
-//Upが押されたかどうかを判定する関数
+// 上が押されたかどうかを判定する関数
 bool InputUp()
 {
 	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key1 == (PAD_INPUT_UP) && !isInputDownHold)
+	if (Key1 == (PAD_INPUT_UP) && !IsInputDownHold)
 	{
-		isInputDownHold = true;
+		IsInputDownHold = true;
 		return true;
 	}
 	else if (!Key1)
 	{
-		isInputDownHold = false;
+		IsInputDownHold = false;
 	}
 
 	return false;
 }
 
-//Downが押されたかどうかを判定する関数
+// 下が押されたかどうかを判定する関数
 bool InputDown()
 {
 	Key2 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key2 == (PAD_INPUT_DOWN) && !isInputUpHold)
+	if (Key2 == (PAD_INPUT_DOWN) && !IsInputUpHold)
 	{
-		isInputUpHold = true;
+		IsInputUpHold = true;
 		return true;
 	}
 	else if (!Key2)
 	{
-		isInputUpHold = false;
+		IsInputUpHold = false;
 	}
 
 	return false;
@@ -1511,14 +1548,14 @@ bool InputJump1()
 	Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key == (PAD_INPUT_1) && !isInputJump1Hold)
+	if (Key == (PAD_INPUT_1) && !IsInputJump1Hold)
 	{
-		isInputJump1Hold = true;
+		IsInputJump1Hold = true;
 		return true;
 	}
 	else if (!Key)
 	{
-		isInputJump1Hold = false;
+		IsInputJump1Hold = false;
 	}
 
 	return false;
@@ -1530,14 +1567,14 @@ bool InputJump2()
 	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key1 == (PAD_INPUT_3) && !isInputJump2Hold)
+	if (Key1 == (PAD_INPUT_3) && !IsInputJump2Hold)
 	{
-		isInputJump2Hold = true;
+		IsInputJump2Hold = true;
 		return true;
 	}
 	else if (!Key1)
 	{
-		isInputJump2Hold = false;
+		IsInputJump2Hold = false;
 	}
 
 	return false;
