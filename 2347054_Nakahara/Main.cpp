@@ -12,6 +12,8 @@ int Key2;
 int Cr1;
 int Cr2;
 
+int GroundCoordinate = 600;
+
 int Time;
 
 // プレイヤー関連の定義
@@ -404,7 +406,7 @@ int TitleScene()
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
-	PlayerY = 600;
+	PlayerY = GroundCoordinate;
 
 	/*ゲーム処理*/
 	while (GameRoop)
@@ -514,9 +516,9 @@ int TitleScene()
 		if (PlayerY < 0 + 64) PlayerY = 0 + 64;
 
 		// もし地面についていたら止まる
-		if (PlayerY > 600)
+		if (PlayerY > GroundCoordinate)
 		{
-			PlayerY = 600;
+			PlayerY = GroundCoordinate;
 			JumpPower = 0;
 			JumpPower1 = 0;
 		}
@@ -580,7 +582,7 @@ int ManualScene()
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
-	PlayerY = 600;
+	PlayerY = GroundCoordinate;
 
 	while (GameRoop)
 	{
@@ -612,9 +614,9 @@ int ManualScene()
 		if (PlayerY < 0 + 64) PlayerY = 0 + 64;
 
 		// もし地面についていたら止まる
-		if (PlayerY > 600)
+		if (PlayerY > GroundCoordinate)
 		{
-			PlayerY = 600;
+			PlayerY = GroundCoordinate;
 			JumpPower = 0;
 		}
 		if (CountFrame == 120)JumpPower = 20;
@@ -663,7 +665,7 @@ int StartManualScene()
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
-	PlayerY = 600;
+	PlayerY = GroundCoordinate;
 
 	while (GameRoop)
 	{
@@ -695,9 +697,9 @@ int StartManualScene()
 		if (PlayerY < 0 + 64) PlayerY = 0 + 64;
 
 		// もし地面についていたら止まる
-		if (PlayerY > 600)
+		if (PlayerY > GroundCoordinate)
 		{
-			PlayerY = 600;
+			PlayerY = GroundCoordinate;
 			JumpPower = 0;
 		}
 		if (CountFrame == 120)JumpPower = 20;
@@ -744,6 +746,9 @@ int GameScene()
 
 	int MoovSpeed = 10;
 	int ClarTime = 60000;
+	int JumpHeight = 24;
+	int JumpHeight1 = 15;
+	int CountFrame = 0;
 
 	// グラフィック『player.png』をメモリにロード
 	PlayerGraph = LoadGraph("image/player.png");
@@ -760,7 +765,7 @@ int GameScene()
 
 	// キャラクターの初期データをセット
 	PlayerX = 60;
-	PlayerY = 600;
+	PlayerY = GroundCoordinate;
 
 	// 現在経過時間を得る
 	StartTime = GetNowCount();
@@ -809,32 +814,32 @@ int GameScene()
 		{
 			if (EnemyNum == 0 && Time >= 0) {
 				EnemyPos.x = 1280;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 1 && Time >= 3000) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 2 && Time >= 6000) {
 				EnemyPos2.x = 1270;
-				EnemyPos2.y = 600;
+				EnemyPos2.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 3 && Time >= 8000) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 4 && Time >= 10000) {
 				EnemyPos4.x = 1270;
-				EnemyPos4.y = 600;
+				EnemyPos4.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 5 && Time >= 12000) {
 				EnemyPos.x = 1270;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 6 && Time >= 12000) {
@@ -844,7 +849,7 @@ int GameScene()
 			}
 			if (EnemyNum == 7 && Time >= 14000) {
 				EnemyPos2.x = 1270;
-				EnemyPos2.y = 600;
+				EnemyPos2.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 8 && Time >= 14000) {
@@ -854,7 +859,7 @@ int GameScene()
 			}
 			if (EnemyNum == 9 && Time >= 16000) {
 				EnemyPos4.x = 1270;
-				EnemyPos4.y = 600;
+				EnemyPos4.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 10 && Time >= 16000) {
@@ -864,7 +869,7 @@ int GameScene()
 			}
 			if (EnemyNum == 11 && Time >= 18000) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 12 && Time >= 18000) {
@@ -874,7 +879,7 @@ int GameScene()
 			}
 			if (EnemyNum == 13 && Time >= 20000) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 14 && Time >= 20000) {
@@ -884,12 +889,12 @@ int GameScene()
 			}
 			if (EnemyNum == 15 && Time >= 22000) {
 				EnemyPos.x = 1270;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 16 && Time >= 24000) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 17 && Time >= 24000) {
@@ -899,7 +904,7 @@ int GameScene()
 			}
 			if (EnemyNum == 18 && Time >= 26000) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 19 && Time >= 28000) {
@@ -909,7 +914,7 @@ int GameScene()
 			}
 			if (EnemyNum == 20 && Time >= 28000) {
 				EnemyPos.x = 1270;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 21 && Time >= 30000) {
@@ -929,7 +934,7 @@ int GameScene()
 			}
 			if (EnemyNum == 24 && Time >= 33000) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 25 && Time >= 34000) {
@@ -939,12 +944,12 @@ int GameScene()
 			}
 			if (EnemyNum == 26 && Time >= 34000) {
 				EnemyPos5.x = 1270;
-				EnemyPos5.y = 600;
+				EnemyPos5.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 27 && Time >= 35000) {
 				EnemyPos6.x = 1270;
-				EnemyPos6.y = 600;
+				EnemyPos6.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 28 && Time >= 36000) {
@@ -954,7 +959,7 @@ int GameScene()
 			}
 			if (EnemyNum == 29 && Time >= 36000) {
 				EnemyPos8.x = 1270;
-				EnemyPos8.y = 600;
+				EnemyPos8.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 30 && Time >= 37000) {
@@ -964,12 +969,12 @@ int GameScene()
 			}
 			if (EnemyNum == 31 && Time >= 37000) {
 				EnemyPos.x = 1270;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 32 && Time >= 38000) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 33 && Time >= 39000) {
@@ -979,12 +984,12 @@ int GameScene()
 			}
 			if (EnemyNum == 34 && Time >= 39000) {
 				EnemyPos3.x = 1280;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 35 && Time >= 41000) {
 				EnemyPos4.x = 1270;
-				EnemyPos4.y = 600;
+				EnemyPos4.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 36 && Time >= 41000) {
@@ -994,7 +999,7 @@ int GameScene()
 			}
 			if (EnemyNum == 37 && Time >= 42000) {
 				EnemyPos6.x = 1270;
-				EnemyPos6.y = 600;
+				EnemyPos6.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 38 && Time >= 42000) {
@@ -1004,7 +1009,7 @@ int GameScene()
 			}
 			if (EnemyNum == 39 && Time >= 43000) {
 				EnemyPos8.x = 1280;
-				EnemyPos8.y = 600;
+				EnemyPos8.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 40 && Time >= 43000) {
@@ -1024,7 +1029,7 @@ int GameScene()
 			}
 			if (EnemyNum == 43 && Time >= 47000) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 44 && Time >= 47000) {
@@ -1034,7 +1039,7 @@ int GameScene()
 			}
 			if (EnemyNum == 45 && Time >= 47850) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 46 && Time >= 47850) {
@@ -1044,12 +1049,12 @@ int GameScene()
 			}
 			if (EnemyNum == 47 && Time >= 48700) {
 				EnemyPos5.x = 1270;
-				EnemyPos5.y = 600;
+				EnemyPos5.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 48 && Time >= 49550) {
 				EnemyPos6.x = 1270;
-				EnemyPos6.y = 600;
+				EnemyPos6.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 49 && Time >= 49550) {
@@ -1059,7 +1064,7 @@ int GameScene()
 			}
 			if (EnemyNum == 50 && Time >= 50400) {
 				EnemyPos8.x = 1270;
-				EnemyPos8.y = 600;
+				EnemyPos8.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 51 && Time >= 50400) {
@@ -1069,7 +1074,7 @@ int GameScene()
 			}
 			if (EnemyNum == 52 && Time >= 51250) {
 				EnemyPos.x = 1270;
-				EnemyPos.y = 600;
+				EnemyPos.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 53 && Time >= 52100) {
@@ -1079,12 +1084,12 @@ int GameScene()
 			}
 			if (EnemyNum == 54 && Time >= 52100) {
 				EnemyPos2.x = 1280;
-				EnemyPos2.y = 600;
+				EnemyPos2.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 55 && Time >= 52950) {
 				EnemyPos3.x = 1270;
-				EnemyPos3.y = 600;
+				EnemyPos3.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 56 && Time >= 52950) {
@@ -1094,12 +1099,12 @@ int GameScene()
 			}
 			if (EnemyNum == 57 && Time >= 53800) {
 				EnemyPos5.x = 1270;
-				EnemyPos5.y = 600;
+				EnemyPos5.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 58 && Time >= 54650) {
 				EnemyPos6.x = 1270;
-				EnemyPos6.y = 600;
+				EnemyPos6.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 59 && Time >= 54650) {
@@ -1109,7 +1114,7 @@ int GameScene()
 			}
 			if (EnemyNum == 60 && Time >= 55500) {
 				EnemyPos8.x = 1270;
-				EnemyPos8.y = 600;
+				EnemyPos8.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 61 && Time >= 55500) {
@@ -1119,7 +1124,7 @@ int GameScene()
 			}
 			if (EnemyNum == 62 && Time >= 56350) {
 				EnemyPos1.x = 1270;
-				EnemyPos1.y = 600;
+				EnemyPos1.y = GroundCoordinate;
 				EnemyNum++;
 			}
 			if (EnemyNum == 63 && Time >= 56350) {
@@ -1135,7 +1140,7 @@ int GameScene()
 
 		//落下加速度付加
 		JumpPower -= 0.8f;
-		JumpPower1 -= 0.8f;
+		JumpPower1 -= 0.9f;
 	
 		// プレイヤーが画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 		if (PlayerY > 720 - 64) PlayerY = 720 - 64;
@@ -1143,44 +1148,39 @@ int GameScene()
 		if (PlayerY < 0 + 64) PlayerY = 0 + 64;
 
 		// もし地面についていたら止まる
-		if (PlayerY > 600)
+		if (PlayerY > GroundCoordinate)
 		{
-			PlayerY = 600;
+			PlayerY = GroundCoordinate;
 			JumpPower = 0;
 			JumpPower1 = 0;
 			JumpNum = 0;
+			CountFrame = 0;
 		}
 
+		CountFrame++;
+		
 		// プレイヤーのジャンプ処理
-		if (PlayerY == 600)
 		{
-			if (InputJump1())
+			if (PlayerY == GroundCoordinate)
 			{
-				if (InputJump2())
+				if (InputJump1())
 				{
-					JumpPower = 24;
-					JumpPower1 = 15;
-					JumpNum = 2;
-					// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
-					PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
-				}
-				else
-				{
-					JumpPower = 24;
+					JumpPower = JumpHeight;
 					JumpNum = 1;
 					// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
 					PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
 				}
 			}
-		}
-		else if (InputJump2())
-		{
-			if (JumpNum == 1)
+
+			if (InputJump2())
 			{
-				JumpPower1 = 15;
-				JumpNum = 2;
-				// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
-				PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+				if (JumpNum == 1 && CountFrame >= 8)
+				{
+					JumpPower1 = JumpHeight1;
+					JumpNum = 2;
+					// 読みこんだ音をバックグラウンド再生します(『PlaySoundMem』関数使用)
+					PlaySoundMem(SeHandle, DX_PLAYTYPE_BACK);
+				}
 			}
 		}
 
@@ -1567,7 +1567,7 @@ bool InputJump2()
 	Key1 = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	//指定フレーム以上押していたら押した判定
-	if (Key1 == (PAD_INPUT_3) && !IsInputJump2Hold)
+	if (Key1 == (PAD_INPUT_1) && !IsInputJump2Hold)
 	{
 		IsInputJump2Hold = true;
 		return true;
