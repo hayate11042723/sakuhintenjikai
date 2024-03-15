@@ -1,15 +1,1 @@
-﻿  Main.cpp
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(439,14): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(469,33): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(469,21): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(470,35): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(470,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(471,35): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(471,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(472,35): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(472,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(473,35): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(473,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(275): warning C4715: 'ManualScene': 値を返さないコントロール パスがあります。
-C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\Main.cpp(606): warning C4715: 'GameOverScene': 値を返さないコントロール パスがあります。
-  rangame.vcxproj -> C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\x64\Debug\rangame.exe
+﻿  rangame.vcxproj -> C:\Users\fko2347054\Desktop\sakuhintenjikai\2347054_Nakahara\x64\Debug\rangame.exe
